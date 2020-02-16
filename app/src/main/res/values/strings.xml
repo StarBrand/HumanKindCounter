@@ -1,0 +1,10 @@
+<resources>
+    <string name="placeholder">Place Holder</string>
+    <string name="shuffle_cards">Shuffle cards</string>
+    <string name="none">No faction</string>
+    <string name="quimera">Quimera</string>
+    <string name="abismal">Abismales</string>
+    <string name="corporacion">Corporación</string>
+    <string name="acracia">Acracia</string>
+    <string name="next_virtud">Next Virtud</string>
+</resources>

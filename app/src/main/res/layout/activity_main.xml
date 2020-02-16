@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/faction"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/restart_faction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:contentDescription="@string/shuffle_cards"
+                android:onClick="startService"
+                android:src="@drawable/baseline_autorenew_black_48" />
+
+            <LinearLayout
+                android:id="@+id/display_faction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/none"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/none"
+                    android:src="@drawable/none" />
+
+                <ImageView
+                    android:id="@+id/quimera"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/quimera"
+                    android:src="@drawable/quimera" />
+
+                <ImageView
+                    android:id="@+id/abismal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/abismal"
+                    android:src="@drawable/abismal" />
+
+                <ImageView
+                    android:id="@+id/corporacion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/corporacion"
+                    android:src="@drawable/corporacion" />
+
+                <ImageView
+                    android:id="@+id/acracia"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/acracia"
+                    android:src="@drawable/acracia" />
+
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/card_faction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:onClick="startService"
+                android:src="@drawable/faction_back"
+                android:contentDescription="@string/next_virtud"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/numerical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/restart_numerical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:onClick="startService"
+                android:src="@drawable/baseline_autorenew_black_48"
+                android:contentDescription="@string/shuffle_cards"/>
+
+            <LinearLayout
+                android:id="@+id/display_numerical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/minus_two"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/none"
+                    android:src="@drawable/minus_two" />
+
+                <ImageView
+                    android:id="@+id/minus_one"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/quimera"
+                    android:src="@drawable/minus_one" />
+
+                <ImageView
+                    android:id="@+id/zero"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/abismal"
+                    android:src="@drawable/zero" />
+
+                <ImageView
+                    android:id="@+id/plus_one"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/corporacion"
+                    android:src="@drawable/plus_one" />
+
+                <ImageView
+                    android:id="@+id/plus_two"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/acracia"
+                    android:src="@drawable/plus_two" />
+
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/card_numerical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:onClick="startService"
+                android:src="@drawable/numerical_back"
+                android:contentDescription="@string/next_virtud"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/stats"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/sancturay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="startService"
+            android:text="@string/placeholder" />
+        
+    </RelativeLayout>
+
+</LinearLayout>
