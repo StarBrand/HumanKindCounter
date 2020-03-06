@@ -1,5 +1,6 @@
 <resources>
     <string name="placeholder">Place Holder</string>
+    <string name="app_name">HumanKind Counter</string>
     <string name="shuffle_cards">Shuffle cards</string>
     <string name="none">No faction</string>
     <string name="quimera">Quimera</string>
@@ -7,4 +8,9 @@
     <string name="corporacion">Corporación</string>
     <string name="acracia">Acracia</string>
     <string name="next_virtud">Next Virtud</string>
+    <string name="shuffle">Shuffle Cards!</string>
+    <string name="display_faction_text">Factions already obtained:</string>
+    <string name="display_numerical_text">Virtues already obtained:</string>
+    <string name="error">An unexpected error happened</string>
+    <string name="shuffled">Cards shuffled</string>
 </resources>
