@@ -8,7 +8,7 @@ public abstract class VirtueCard {
 
     private List<Object> available = new ArrayList<>();
 
-    public VirtueCard(){
+    VirtueCard(){
         shuffleCards();
     }
 

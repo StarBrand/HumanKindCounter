@@ -1,117 +1,151 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBack"
-    tools:context=".MainActivity">
+    android:gravity="bottom"
+    tools:context=".MainActivity"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:weightSum="2"
         android:baselineAligned="false"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:weightSum="2">
 
         <LinearLayout
             android:id="@+id/faction"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:paddingTop="20dp"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
-            <ImageButton
-                android:id="@+id/restart_faction"
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:contentDescription="@string/shuffle_cards"
-                android:onClick="startService"
-                android:background="@android:color/transparent"
-                android:src="@drawable/baseline_autorenew_black_48" />
+                android:layout_height="wrap_content">
 
-            <LinearLayout
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/shuffle_cards"
+                    android:paddingStart="3dp"
+                    android:paddingLeft="3dp"
+                    android:paddingTop="3dp"
+                    android:paddingEnd="0dp"
+                    android:paddingRight="0dp"
+                    android:src="@drawable/baseline_autorenew_black_48"
+                    app:tint="@android:color/white" />
+
+                <ImageButton
+                    android:id="@+id/restart_faction"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@string/shuffle_cards"
+                    android:src="@drawable/baseline_autorenew_black_48" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:id="@+id/display_faction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@color/colorBack">
+                android:layout_margin="5dp"
+                android:paddingTop="15dp">
+
+                <ImageView
+                    android:id="@+id/box_faction"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/display_already_1"
+                    android:src="@drawable/box" />
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_horizontal"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:paddingStart="13dp"
+                    android:paddingLeft="13dp"
+                    android:paddingTop="4dp"
+                    android:paddingEnd="0dp"
+                    android:paddingRight="0dp"
                     android:text="@string/display_faction_text"
-                    android:textColor="@android:color/white"/>
+                    android:textColor="@android:color/black" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/box_faction"
                     android:weightSum="5">
 
                     <ImageView
                         android:id="@+id/none"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:contentDescription="@string/none"
+                        android:src="@drawable/blank"
+                        android:visibility="gone" />
+
+                    <ImageView
+                        android:id="@+id/chimera"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:visibility="invisible"
-                        android:contentDescription="@string/none"
-                        android:src="@drawable/blank" />
+                        android:contentDescription="@string/chimera"
+                        android:src="@drawable/chimera"
+                        android:visibility="gone" />
 
                     <ImageView
-                        android:id="@+id/quimera"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:id="@+id/abysmal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:visibility="invisible"
-                        android:contentDescription="@string/quimera"
-                        android:src="@drawable/quimera" />
+                        android:contentDescription="@string/abysmal"
+                        android:src="@drawable/abysmal"
+                        android:visibility="gone" />
 
                     <ImageView
-                        android:id="@+id/abismal"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:id="@+id/corpo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:visibility="invisible"
-                        android:contentDescription="@string/abismal"
-                        android:src="@drawable/abismal" />
-
-                    <ImageView
-                        android:id="@+id/corporacion"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:visibility="invisible"
-                        android:contentDescription="@string/corporacion"
-                        android:src="@drawable/corporacion" />
+                        android:contentDescription="@string/corpo"
+                        android:src="@drawable/corpo"
+                        android:visibility="gone" />
 
                     <ImageView
                         android:id="@+id/acracia"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:visibility="invisible"
                         android:contentDescription="@string/acracia"
-                        android:src="@drawable/acracia" />
+                        android:src="@drawable/acracia"
+                        android:visibility="gone" />
 
                 </LinearLayout>
 
-            </LinearLayout>
+            </RelativeLayout>
 
             <ImageButton
                 android:id="@+id/card_faction"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:scaleType="fitCenter"
-                android:contentDescription="@string/next_virtud"
-                android:onClick="startService"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:adjustViewBounds="true"
                 android:background="@android:color/transparent"
+                android:contentDescription="@string/next_virtue"
+                android:paddingTop="10dp"
+                android:scaleType="fitCenter"
                 android:src="@drawable/faction_back" />
 
         </LinearLayout>
@@ -119,39 +153,70 @@
         <LinearLayout
             android:id="@+id/numerical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_horizontal"
+            android:paddingTop="20dp"
             android:orientation="vertical">
 
-            <ImageButton
-                android:id="@+id/restart_numerical"
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:onClick="startService"
-                android:background="@android:color/transparent"
-                android:src="@drawable/baseline_autorenew_black_48"
-                android:contentDescription="@string/shuffle_cards"/>
+                android:layout_height="wrap_content">
 
-            <LinearLayout
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/shuffle_cards"
+                    android:paddingStart="3dp"
+                    android:paddingLeft="3dp"
+                    android:paddingTop="3dp"
+                    android:paddingEnd="0dp"
+                    android:paddingRight="0dp"
+                    android:src="@drawable/baseline_autorenew_black_48"
+                    app:tint="@android:color/white" />
+
+                <ImageButton
+                    android:id="@+id/restart_numerical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@string/shuffle_cards"
+                    android:src="@drawable/baseline_autorenew_black_48" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:id="@+id/display_numerical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@color/colorBack">
+                android:layout_margin="5dp"
+                android:background="@android:color/transparent"
+                android:paddingTop="15dp">
+
+                <ImageView
+                    android:id="@+id/box_numerical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/display_already_1"
+                    android:src="@drawable/box" />
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_horizontal"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:paddingStart="3dp"
+                    android:paddingLeft="3dp"
+                    android:paddingTop="4dp"
+                    android:paddingEnd="0dp"
+                    android:paddingRight="0dp"
                     android:text="@string/display_numerical_text"
-                    android:textColor="@android:color/white"/>
+                    android:textColor="@android:color/black" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@android:color/transparent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/box_numerical"
                     android:weightSum="5">
 
                     <ImageView
@@ -159,78 +224,193 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:visibility="invisible"
                         android:contentDescription="@string/none"
-                        android:src="@drawable/minus_two" />
+                        android:src="@drawable/minus_two"
+                        android:visibility="gone" />
 
                     <ImageView
                         android:id="@+id/minus_one"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:visibility="invisible"
-                        android:contentDescription="@string/quimera"
-                        android:src="@drawable/minus_one" />
+                        android:contentDescription="@string/chimera"
+                        android:src="@drawable/minus_one"
+                        android:visibility="gone" />
 
                     <ImageView
                         android:id="@+id/zero"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:visibility="invisible"
-                        android:contentDescription="@string/abismal"
-                        android:src="@drawable/zero" />
+                        android:contentDescription="@string/abysmal"
+                        android:src="@drawable/zero"
+                        android:visibility="gone" />
 
                     <ImageView
                         android:id="@+id/plus_one"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:visibility="invisible"
-                        android:contentDescription="@string/corporacion"
-                        android:src="@drawable/plus_one" />
+                        android:contentDescription="@string/corpo"
+                        android:src="@drawable/plus_one"
+                        android:visibility="gone" />
 
                     <ImageView
                         android:id="@+id/plus_two"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:visibility="invisible"
                         android:contentDescription="@string/acracia"
-                        android:src="@drawable/plus_two" />
+                        android:src="@drawable/plus_two"
+                        android:visibility="gone" />
 
                 </LinearLayout>
 
-            </LinearLayout>
+            </RelativeLayout>
 
             <ImageButton
                 android:id="@+id/card_numerical"
-                android:layout_width="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:scaleType="fitCenter"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal"
+                android:layout_margin="5dp"
+                android:adjustViewBounds="true"
                 android:background="@android:color/transparent"
-                android:src="@drawable/numerical_back"
-                android:contentDescription="@string/next_virtud"/>
+                android:contentDescription="@string/next_virtue"
+                android:paddingTop="10dp"
+                android:scaleType="fitStart"
+                android:src="@drawable/numerical_back" />
 
         </LinearLayout>
 
     </LinearLayout>
 
     <RelativeLayout
-        android:id="@+id/stats"
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/sanctuary_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/san"
+            android:paddingTop="20dp"
+            android:paddingBottom="8dp"
+            android:scaleType="fitEnd"
+            android:src="@drawable/sanctuary_bar" />
+
+        <ImageButton
+            android:id="@+id/sanctuary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@id/sanctuary_bar"
+            android:layout_alignLeft="@id/sanctuary_bar"
+            android:layout_alignBottom="@id/sanctuary_bar"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/san"
+            android:onClick="startGame"
+            android:scaleType="center"
+            android:src="@drawable/sanctuary_clickable" />
+
+        <ImageView
+            android:id="@+id/sanctuary_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@id/sanctuary"
+            android:layout_alignLeft="@id/sanctuary"
+            android:layout_alignBottom="@id/sanctuary"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/san"
+            android:scaleType="center"
+            android:src="@drawable/color_white"
+            android:visibility="visible" />
+
+        <ImageButton
+            android:id="@+id/minus_structure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@id/sanctuary_bar"
+            android:layout_alignLeft="@id/sanctuary_bar"
+            android:layout_alignTop="@id/sanctuary_bar"
+            android:layout_marginStart="163dp"
+            android:layout_marginLeft="163dp"
+            android:layout_marginTop="20dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/structure"
+            android:src="@drawable/structure_click_minus" />
+
+        <ImageButton
+            android:id="@+id/plus_structure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/sanctuary_bar"
+            android:layout_alignEnd="@id/sanctuary_bar"
+            android:layout_alignRight="@id/sanctuary_bar"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="72dp"
+            android:layout_marginRight="72dp"
+            android:layout_marginBottom="230dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/structure"
+            android:src="@drawable/structure_click_plus" />
 
         <Button
-            android:id="@+id/sancturay"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:onClick="startService"
-            android:text="@string/placeholder" />
+            android:id="@+id/structure_points"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/sanctuary_bar"
+            android:layout_alignEnd="@id/sanctuary_bar"
+            android:layout_alignRight="@id/sanctuary_bar"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="123dp"
+            android:layout_marginRight="123dp"
+            android:background="@android:color/transparent"
+            android:textColor="@android:color/white"
+            android:textSize="20sp" />
+
+        <ImageButton
+            android:id="@+id/minus_will"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@id/sanctuary_bar"
+            android:layout_alignLeft="@id/sanctuary_bar"
+            android:layout_alignBottom="@id/sanctuary_bar"
+            android:layout_marginStart="163dp"
+            android:layout_marginLeft="163dp"
+            android:layout_marginBottom="8dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/will"
+            android:src="@drawable/will_click_minus" />
+
+        <ImageButton
+            android:id="@+id/plus_will"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@id/sanctuary_bar"
+            android:layout_alignRight="@id/sanctuary_bar"
+            android:layout_alignBottom="@id/sanctuary_bar"
+            android:layout_marginEnd="72dp"
+            android:layout_marginRight="72dp"
+            android:layout_marginBottom="8dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/will"
+            android:src="@drawable/will_click_plus" />
+
+        <Button
+            android:id="@+id/will_points"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@id/sanctuary_bar"
+            android:layout_alignRight="@id/sanctuary_bar"
+            android:layout_alignBottom="@id/sanctuary_bar"
+            android:layout_marginEnd="123dp"
+            android:layout_marginRight="123dp"
+            android:layout_marginBottom="6dp"
+            android:background="@android:color/transparent"
+            android:textColor="@android:color/white"
+            android:textSize="20sp" />
 
     </RelativeLayout>
 

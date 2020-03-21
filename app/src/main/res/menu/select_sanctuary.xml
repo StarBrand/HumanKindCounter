@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/select_chimera"
+        android:title="@string/chimera"/>
+    <item
+        android:id="@+id/select_abysmal"
+        android:title="@string/abysmal"/>
+    <item
+        android:id="@+id/select_corpo"
+        android:title="@string/corpo"/>
+    <item
+        android:id="@+id/select_acracia"
+        android:title="@string/acracia"/>
+    <item
+        android:id="@+id/select_white"
+        android:title="@string/no_faction"/>
+</menu>

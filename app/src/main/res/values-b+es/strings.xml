@@ -1,0 +1,32 @@
+<resources>
+    <string name="placeholder">Algo va aquí</string>
+    <string name="app_name">Contador HumanKind</string>
+    <string name="shuffle_cards">Mezclar cartas</string>
+    <string name="none">Sin facción</string>
+    <string name="chimera">Quimera</string>
+    <string name="abysmal">Abismales</string>
+    <string name="corpo">Corporación</string>
+    <string name="acracia">Acracia</string>
+    <string name="next_virtue">Siguiente Virtud</string>
+    <string name="shuffle">Mezcla las cartas!</string>
+    <string name="display_faction_text">Facciones ya obtenidas:</string>
+    <string name="display_numerical_text">Virtudes ya obtenidas:</string>
+    <string name="error">Un error inesperado ocurrió</string>
+    <string name="shuffled">Cartas mezcladas</string>
+    <string name="san">Santuario</string>
+    <string name="structure">Puntos de estructura</string>
+    <string name="will">Puntos de voluntad</string>
+    <string name="no_will">No puedes jugar esa carta, puntos de voluntad insuficientes</string>
+    <string name="no_structure">Tu Santuario ha sido destruido</string>
+    <string name="display_already_1">Facciones obtenidas</string>
+    <string name="structure_question">Con cuántos puntos te golpearon?</string>
+    <string name="hit_it">DALE</string>
+    <string name="passed">Puntos que pasaron</string>
+    <string name="will_question">Cuánta voluntad gastaste?</string>
+    <string name="spend">GASTA</string>
+    <string name="will_spent">Volundad que gastaste</string>
+    <string name="settings">Configuración</string>
+    <string name="general_settings">Configuraciones generales</string>
+    <string name="language">Idioma</string>
+    <string name="no_faction">Sin Facción</string>
+</resources>

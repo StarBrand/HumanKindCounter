@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/settings_view">
+
+    <PreferenceCategory
+        android:title="@string/general_settings">
+
+        <ListPreference
+            android:key="language"
+            android:title="@string/language"
+            android:defaultValue="en"
+            android:entries="@array/language"
+            android:entryValues="@array/languageValue"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
