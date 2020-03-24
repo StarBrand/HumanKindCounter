@@ -332,11 +332,17 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        String language_selected = sharedPreferences.getString("language", "en");
+        String language_selected = sharedPreferences.getString("language", "null");
         Configuration configuration = new Configuration(getResources().getConfiguration());
-        Locale locale = new Locale(language_selected);
+        Locale locale;
+        Log.d(msg, "Selected language: " + language_selected);
+        if (language_selected.equals("null")) {
+            language_selected = Locale.getDefault().getDisplayLanguage();
+        } Log.d(msg, "Selected language: " + language_selected);
+        locale = new Locale(language_selected);
         Locale.setDefault(locale);
         configuration.locale = locale;
         getResources().updateConfiguration(configuration, null);
     }
+
 }
