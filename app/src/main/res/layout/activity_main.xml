@@ -52,6 +52,7 @@
                     android:layout_gravity="center_horizontal"
                     android:background="@android:color/transparent"
                     android:contentDescription="@string/shuffle_cards"
+                    android:onClick="shuffleFactionCard"
                     android:src="@drawable/baseline_autorenew_black_48" />
 
             </RelativeLayout>
@@ -149,6 +150,7 @@
                 android:contentDescription="@string/next_virtue"
                 android:paddingTop="10dp"
                 android:scaleType="fitCenter"
+                android:onClick="nextFactionCard"
                 android:src="@drawable/faction_back" />
 
         </LinearLayout>
@@ -185,6 +187,7 @@
                     android:layout_gravity="center_horizontal"
                     android:background="@android:color/transparent"
                     android:contentDescription="@string/shuffle_cards"
+                    android:onClick="shuffleNumericalCard"
                     android:src="@drawable/baseline_autorenew_black_48" />
 
             </RelativeLayout>
@@ -282,6 +285,7 @@
                 android:contentDescription="@string/next_virtue"
                 android:paddingTop="10dp"
                 android:scaleType="fitCenter"
+                android:onClick="nextNumericalCard"
                 android:src="@drawable/numerical_back" />
 
         </LinearLayout>

@@ -24,7 +24,7 @@ public abstract class VirtueCard {
             Random rand = new Random();
             int die = rand.nextInt(available.size());
             Object chosen = available.get(die);
-            available.remove(die);
+            available.remove(chosen);
             return chosen;
         }
     }
@@ -32,7 +32,9 @@ public abstract class VirtueCard {
     /**
      * Regenerate cards
      */
-    public abstract void shuffleCards();
+    public void shuffleCards(){
+        available.clear();
+    };
 
     /**
      * Add parameter to available values of card

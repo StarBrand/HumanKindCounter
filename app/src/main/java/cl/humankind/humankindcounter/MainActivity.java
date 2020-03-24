@@ -76,88 +76,6 @@ public class MainActivity extends AppCompatActivity
         addCardToShowFaction();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ImageButton numerical_virtue = findViewById(R.id.card_numerical);
-        ImageButton faction_virtue = findViewById(R.id.card_faction);
-        numerical_virtue.setOnClickListener(new OnClickListener(){
-            @Override
-            public void onClick(View v){
-                try{
-                    Object chosen = numerical.nextVirtue();
-                    Log.d(msg, "Numerical virtue at random: " + chosen);
-                    ImageButton card = findViewById(R.id.card_numerical);
-                    card.setImageResource(card_to_show.get(chosen));
-                    ImageView view = findViewById(new_card.get(chosen));
-                    view.setVisibility(View.VISIBLE);
-                } catch (IndexOutOfBoundsException e){
-                    Toast.makeText(MainActivity.this,
-                            R.string.shuffle,
-                            Toast.LENGTH_LONG).show();
-                } catch (NullPointerException e){
-                    Toast.makeText(MainActivity.this,
-                            R.string.error,
-                            Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-        faction_virtue.setOnClickListener(new OnClickListener(){
-            @Override
-            public void onClick(View v){
-                try{
-                    Object chosen = faction.nextVirtue();
-                    Log.d(msg, "Faction virtue at random: " + chosen);
-                    ImageButton card = findViewById(R.id.card_faction);
-                    card.setImageResource(card_to_show.get(chosen));
-                    ImageView view = findViewById(new_card.get(chosen));
-                    view.setVisibility(View.VISIBLE);
-                } catch (IndexOutOfBoundsException e){
-                    Toast.makeText(MainActivity.this,
-                            R.string.shuffle,
-                            Toast.LENGTH_LONG).show();
-                } catch (NullPointerException e){
-                    Toast.makeText(MainActivity.this,
-                            R.string.error,
-                            Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-        ImageButton shuffle_numerical = findViewById(R.id.restart_numerical);
-        ImageButton shuffle_faction = findViewById(R.id.restart_faction);
-        shuffle_numerical.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                numerical.shuffleCards();
-                ImageButton card = findViewById(R.id.card_numerical);
-                card.setImageResource(R.drawable.numerical_back);
-                for(int display:new int[]{
-                        R.id.minus_two, R.id.minus_one, R.id.zero,
-                        R.id.plus_one, R.id.plus_two
-                }){
-                    ImageView display_view = findViewById(display);
-                    display_view.setVisibility(View.INVISIBLE);
-                }
-                Toast.makeText(MainActivity.this,
-                        R.string.shuffled,
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
-        shuffle_faction.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                faction.shuffleCards();
-                ImageButton card = findViewById(R.id.card_faction);
-                card.setImageResource(R.drawable.faction_back);
-                for(int display:new int[]{
-                        R.id.chimera, R.id.abysmal, R.id.corpo,
-                        R.id.acracia, R.id.none
-                }){
-                    ImageView display_view = findViewById(display);
-                    display_view.setVisibility(View.INVISIBLE);
-                }
-                Toast.makeText(MainActivity.this,
-                        R.string.shuffled,
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
         Log.d(msg, "The onCreate event");
@@ -232,7 +150,7 @@ public class MainActivity extends AppCompatActivity
         structure_points.setText(gameStatus.getStructurePoints());
         final Button will_points = this.findViewById(R.id.will_points);
         will_points.setText(gameStatus.getWillPoints());
-        ImageButton minus_structure = findViewById(R.id.minus_structure);;
+        ImageButton minus_structure = findViewById(R.id.minus_structure);
         LayoutInflater struct_inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         LayoutInflater will_inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         final View structure_popup = struct_inflater.inflate(R.layout.structure_points, null);
@@ -334,11 +252,82 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
+
     public void endGame(){
         ImageButton minus_structure = findViewById(R.id.minus_structure);
         minus_structure.setOnClickListener(null);
         Button structure_points = this.findViewById(R.id.structure_points);
         structure_points.setText(null);
+    }
+
+    public void nextNumericalCard(View view){
+        try{
+            Object chosen = numerical.nextVirtue();
+            Log.d(msg, "Numerical virtue at random: " + chosen);
+            ImageButton card = findViewById(R.id.card_numerical);
+            card.setImageResource(card_to_show.get(chosen));
+            ImageView mini_view = findViewById(new_card.get(chosen));
+            mini_view.setVisibility(View.VISIBLE);
+        } catch (IndexOutOfBoundsException e){
+            Toast.makeText(MainActivity.this,
+                    R.string.shuffle,
+                    Toast.LENGTH_LONG).show();
+        } catch (NullPointerException e){
+            Toast.makeText(MainActivity.this,
+                    R.string.error,
+                    Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void nextFactionCard(View view){
+        try{
+            Object chosen = faction.nextVirtue();
+            Log.d(msg, "Faction virtue at random: " + chosen);
+            ImageButton card = findViewById(R.id.card_faction);
+            card.setImageResource(card_to_show.get(chosen));
+            ImageView mini_view = findViewById(new_card.get(chosen));
+            mini_view.setVisibility(View.VISIBLE);
+        } catch (IndexOutOfBoundsException e){
+            Toast.makeText(MainActivity.this,
+                    R.string.shuffle,
+                    Toast.LENGTH_LONG).show();
+        } catch (NullPointerException e){
+            Toast.makeText(MainActivity.this,
+                    R.string.error,
+                    Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void shuffleNumericalCard(View view){
+        numerical.shuffleCards();
+        ImageButton card = findViewById(R.id.card_numerical);
+        card.setImageResource(R.drawable.numerical_back);
+        for(int display:new int[]{
+                R.id.minus_two, R.id.minus_one, R.id.zero,
+                R.id.plus_one, R.id.plus_two
+        }){
+            ImageView display_view = findViewById(display);
+            display_view.setVisibility(View.INVISIBLE);
+        }
+        Toast.makeText(MainActivity.this,
+                R.string.shuffled,
+                Toast.LENGTH_SHORT).show();
+    }
+
+    public void shuffleFactionCard(View view){
+        faction.shuffleCards();
+        ImageButton card = findViewById(R.id.card_faction);
+        card.setImageResource(R.drawable.faction_back);
+        for(int display:new int[]{
+                R.id.chimera, R.id.abysmal, R.id.corpo,
+                R.id.acracia, R.id.none
+        }){
+            ImageView display_view = findViewById(display);
+            display_view.setVisibility(View.INVISIBLE);
+        }
+        Toast.makeText(MainActivity.this,
+                R.string.shuffled,
+                Toast.LENGTH_SHORT).show();
     }
 
     @Override
