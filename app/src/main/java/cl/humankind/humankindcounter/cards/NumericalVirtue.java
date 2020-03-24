@@ -11,6 +11,7 @@ public class NumericalVirtue extends VirtueCard{
      * Regenerate cards with integers
      */
     public void shuffleCards(){
+        super.shuffleCards();
         for (int i = -2; i <= +2; i++){
             addAvailable(i);
         }

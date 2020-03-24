@@ -52,6 +52,7 @@
                     android:layout_gravity="center_horizontal"
                     android:background="@android:color/transparent"
                     android:contentDescription="@string/shuffle_cards"
+                    android:onClick="shuffleFactionCard"
                     android:src="@drawable/baseline_autorenew_black_48" />
 
             </RelativeLayout>
@@ -149,6 +150,7 @@
                 android:contentDescription="@string/next_virtue"
                 android:paddingTop="10dp"
                 android:scaleType="fitCenter"
+                android:onClick="nextFactionCard"
                 android:src="@drawable/faction_back" />
 
         </LinearLayout>
@@ -185,6 +187,7 @@
                     android:layout_gravity="center_horizontal"
                     android:background="@android:color/transparent"
                     android:contentDescription="@string/shuffle_cards"
+                    android:onClick="shuffleNumericalCard"
                     android:src="@drawable/baseline_autorenew_black_48" />
 
             </RelativeLayout>
@@ -282,6 +285,7 @@
                 android:contentDescription="@string/next_virtue"
                 android:paddingTop="10dp"
                 android:scaleType="fitCenter"
+                android:onClick="nextNumericalCard"
                 android:src="@drawable/numerical_back" />
 
         </LinearLayout>
@@ -292,23 +296,29 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/sanctuary_layout"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/placeholder"
-            android:src="@drawable/bar_layout" />
-
-        <ImageView
-            android:id="@+id/sanctuary_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignEnd="@id/sanctuary_layout"
-            android:layout_alignRight="@id/sanctuary_layout"
             android:layout_centerVertical="true"
-            android:background="@android:color/transparent"
-            android:contentDescription="@string/san"
-            android:src="@drawable/sanctuary_bar" />
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.18"/>
+
+            <ImageView
+                android:id="@+id/sanctuary_bar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/san"
+                android:scaleType="fitXY"
+                android:layout_weight="0.82"
+                android:src="@drawable/sanctuary_bar" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"

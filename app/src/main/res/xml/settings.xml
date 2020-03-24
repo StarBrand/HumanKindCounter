@@ -9,7 +9,6 @@
         <ListPreference
             android:key="language"
             android:title="@string/language"
-            android:defaultValue="en"
             android:entries="@array/language"
             android:entryValues="@array/languageValue"/>
 
