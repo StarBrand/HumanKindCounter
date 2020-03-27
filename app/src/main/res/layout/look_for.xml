@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@android:drawable/alert_dark_frame">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:gravity="start"
+        android:textSize="20sp"
+        android:textColor="@android:color/white"
+        android:text="@string/edition"/>
+    
+    <Spinner
+        android:id="@+id/select_faction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:orientation="horizontal">
+        
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:gravity="start"
+                android:textSize="20sp"
+                android:textColor="@android:color/white"
+                android:text="@string/will_points"/>
+
+            <EditText
+                android:id="@+id/set_will"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:textColorHint="@android:color/darker_gray"
+                android:importantForAutofill="no"
+                android:hint="@string/will_placeholder"
+                android:gravity="center_horizontal"
+                android:inputType="number" />
+
+        </LinearLayout>
+        
+        <Space
+            android:layout_width="20dp"
+            android:layout_height="match_parent"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:gravity="end"
+                android:textSize="20sp"
+                android:textColor="@android:color/white"
+                android:text="@string/structure_points"/>
+
+            <EditText
+                android:id="@+id/set_structure"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:textColorHint="@android:color/darker_gray"
+                android:importantForAutofill="no"
+                android:hint="@string/structure_placeholder"
+                android:gravity="center_horizontal"
+                android:inputType="number" />
+
+        </LinearLayout>
+        
+    </LinearLayout>
+
+    <Button
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
+        android:text="@string/ok"/>
+
+</LinearLayout>

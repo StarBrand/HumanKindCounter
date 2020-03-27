@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@android:drawable/alert_dark_frame">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="20dp"
+        android:paddingLeft="0dp"
+        android:paddingEnd="20dp"
+        android:paddingStart="0dp"
+        android:layout_gravity="start"
+        android:gravity="start"
+        android:textSize="20sp"
+        android:textColor="@android:color/white"
+        android:text="@string/select_sanctuary"/>
+
+    <Button
+        android:id="@+id/select_sanctuary"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:gravity="start"
+        android:textSize="20sp"
+        android:textColor="@android:color/white"
+        android:text="@string/set_up_stats"/>
+
+    <Button
+        android:id="@+id/set_sanctuary"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
+
+</LinearLayout>
