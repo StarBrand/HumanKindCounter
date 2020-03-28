@@ -14,10 +14,12 @@
         android:textColor="@android:color/white"
         android:text="@string/select_faction"/>
     
-    <Button
+    <Spinner
         android:id="@+id/select_faction"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="20dp"
+        android:alpha="0.4"
+        android:background="@android:color/darker_gray"
         android:textColor="@android:color/black"/>
     
     <LinearLayout
@@ -45,6 +47,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/white"
                 android:textColorHint="@android:color/darker_gray"
+                android:background="@color/blue"
                 android:importantForAutofill="no"
                 android:hint="@string/will_placeholder"
                 android:gravity="center_horizontal"
@@ -76,6 +79,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/white"
                 android:textColorHint="@android:color/darker_gray"
+                android:background="@color/red"
                 android:importantForAutofill="no"
                 android:hint="@string/structure_placeholder"
                 android:gravity="center_horizontal"

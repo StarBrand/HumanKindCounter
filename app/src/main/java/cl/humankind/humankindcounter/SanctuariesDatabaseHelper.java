@@ -24,7 +24,7 @@ import java.util.Arrays;
 public class SanctuariesDatabaseHelper extends SQLiteOpenHelper {
 
     private static final String msg = "Sanctuaries Database : ";
-    private static final int VERSION = 1;
+    private static final int VERSION = 2;
     private static final String NAME = "sanctuaries.db";
     private static final String ASSETS = "databases";
     private Context context;
@@ -45,7 +45,7 @@ public class SanctuariesDatabaseHelper extends SQLiteOpenHelper {
     }
 
     private void installDatabaseFromAssets(){
-        if (! checkDatabaseExist()) {
+        if ((!checkDatabaseExist()) || checkIfOutdated()) {
             try {
                 if (context.deleteDatabase(NAME)){
                     Log.d(msg, "Database deleted");

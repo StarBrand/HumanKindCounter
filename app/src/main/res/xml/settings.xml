@@ -34,6 +34,11 @@
             android:title="@string/dis_trans"
             android:defaultValue="false"/>
 
+        <ListPreference
+            android:key="san_show"
+            android:title="Favorite Sanctuaries to show"
+            android:entryValues="@array/to_show"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory

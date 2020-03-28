@@ -30,25 +30,34 @@ import androidx.preference.PreferenceManager;
 import java.util.HashMap;
 import java.util.Locale;
 
+import cl.humankind.humankindcounter.cards.CardPair;
 import cl.humankind.humankindcounter.cards.FactionVirtue;
 import cl.humankind.humankindcounter.cards.NumericalVirtue;
 import cl.humankind.humankindcounter.cards.VirtueCard;
 import cl.humankind.humankindcounter.points.GameStatus;
+import cl.humankind.humankindcounter.points.MainSanctuary;
+import cl.humankind.humankindcounter.points.Sanctuary;
+import cl.humankind.humankindcounter.points.SanctuaryCache;
 
 public class MainActivity extends AppCompatActivity
         implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     String msg = "Android : ";
-    private HashMap<Object, Integer> new_card;
-    private HashMap<Object, Integer> card_to_show;
     private VirtueCard numerical = new NumericalVirtue();
     private VirtueCard faction = new FactionVirtue();
     private GameStatus gameStatus;
-    private HashMap<Integer, Integer> sanctuary_color;
-    private HashMap<Integer, Integer> background;
+    private SanctuaryCache sanctuaryCache;
+    private MainSanctuary sanctuary;
+    private SQLiteDatabase sanctuaries;
+    private HashMap<Integer, Sanctuary> options;
     private PopupWindow popupPointsWindow;
+    private PopupMenu menuSanctuaries;
     private Button structurePoints;
     private Button willPoints;
+    private int[] cache = new int[] {
+            R.id.cache_1, R.id.cache_2, R.id.cache_3,
+            R.id.cache_4, R.id.cache_5
+    };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -70,103 +79,77 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        new_card = new HashMap<>();
-        card_to_show = new HashMap<>();
-        sanctuary_color = new HashMap<>();
-        background = new HashMap<>();
-        addSanctuaryColors();
-        addBackground();
-        addNewCardNumber();
-        addNewCardFaction();
-        addCardToShowNumber();
-        addCardToShowFaction();
+        sanctuaryCache = new SanctuaryCache();
         super.onCreate(savedInstanceState);
         SanctuariesDatabaseHelper sanctuariesHelper = new SanctuariesDatabaseHelper(this);
-        SQLiteDatabase sanctuaries = sanctuariesHelper.getReadableDatabase();
-        Cursor cursor = sanctuaries.rawQuery(
-                "SELECT name FROM sanctuaries WHERE id = 1 AND edition = \"ev\";",
-                new String[]{}
-        );
-        cursor.moveToNext();
-        String got = cursor.getString(0);
+        sanctuaries = sanctuariesHelper.getReadableDatabase();
+        String get_cache_sql = "SELECT name, structure, will, faction\n" +
+                "FROM user_preference JOIN sanctuaries\n" +
+                "ON user_preference.\"index\" = sanctuaries.\"index\"\n" +
+                "ORDER BY uses DESC, timestamp DESC;";
+        Cursor cursor = sanctuaries.rawQuery(get_cache_sql,null);
+        while (cursor.moveToNext()){
+            Log.d(msg, "Sanctuary on cache: " +
+                    cursor.getString(cursor.getColumnIndex("name")));
+            sanctuaryCache.addSanctuary(
+                    cursor.getString(cursor.getColumnIndex("name")),
+                    cursor.getInt(cursor.getColumnIndex("structure")),
+                    cursor.getInt(cursor.getColumnIndex("will")),
+                    cursor.getString(cursor.getColumnIndex("faction"))
+            );
+        }
         cursor.close();
         sanctuaries.close();
         setContentView(R.layout.activity_main);
+        options = new HashMap<>();
         structurePoints = findViewById(R.id.structure_points);
         willPoints = findViewById(R.id.will_points);
+        setOptions(5);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
-        Log.d(msg, "The onCreate event");
-        Log.d(msg, "Get: " + got);
     }
 
-    private void addSanctuaryColors(){
-        sanctuary_color.put(R.id.cache_1, R.drawable.color_blue);
-        sanctuary_color.put(R.id.cache_2, R.drawable.color_green);
-        sanctuary_color.put(R.id.cache_3, R.drawable.color_red);
-        sanctuary_color.put(R.id.cache_4, R.drawable.color_yellow);
-        sanctuary_color.put(R.id.cache_5, R.drawable.color_white);
-    }
-
-    private void addBackground(){
-        background.put(R.id.cache_1, R.drawable.back_chimera);
-        background.put(R.id.cache_2, R.drawable.back_abysmal);
-        background.put(R.id.cache_3, R.drawable.back_corpo);
-        background.put(R.id.cache_4, R.drawable.back_acracia);
-        background.put(R.id.cache_5, R.color.colorBack);
-    }
-
-    private void addNewCardNumber() {
-        new_card.put(-2, R.id.minus_two);
-        new_card.put(-1, R.id.minus_one);
-        new_card.put(0, R.id.zero);
-        new_card.put(1, R.id.plus_one);
-        new_card.put(2, R.id.plus_two);
-    }
-
-    private void addNewCardFaction() {
-        new_card.put("qm", R.id.chimera);
-        new_card.put("ab", R.id.abysmal);
-        new_card.put("co", R.id.corpo);
-        new_card.put("ac", R.id.acracia);
-        new_card.put("none", R.id.none);
-    }
-
-    private void addCardToShowNumber() {
-        card_to_show.put(-2, R.drawable.card_minus_two);
-        card_to_show.put(-1, R.drawable.card_minus_one);
-        card_to_show.put(0, R.drawable.card_zero);
-        card_to_show.put(1, R.drawable.card_plus_one);
-        card_to_show.put(2, R.drawable.card_plus_two);
-    }
-
-    private void addCardToShowFaction() {
-        card_to_show.put("qm", R.drawable.card_chimera);
-        card_to_show.put("ab", R.drawable.card_abysmal);
-        card_to_show.put("co", R.drawable.card_corpo);
-        card_to_show.put("ac", R.drawable.card_acracia);
-        card_to_show.put("none", R.drawable.card_blank);
+    private void setOptions(int toShow){
+        ImageButton sanctuaryButton = findViewById(R.id.sanctuary);
+        menuSanctuaries = new PopupMenu(MainActivity.this, sanctuaryButton);
+        menuSanctuaries.getMenuInflater().inflate(R.menu.select_sanctuary,
+                menuSanctuaries.getMenu());
+        for(int i = 0; i < toShow || !sanctuaryCache.cacheEmpty(); i++) {
+            MenuItem item = menuSanctuaries.getMenu().findItem(cache[i]);
+            if (options.size() <= i) {
+                Sanctuary toAdd = sanctuaryCache.getSanctuary();
+                options.put(cache[i], toAdd);
+            } else Log.d(msg, "Options already set");
+            Sanctuary aSanctuary = options.get(cache[i]);
+            if (aSanctuary != null) {
+                item.setTitle(aSanctuary.getName());
+                item.setVisible(true);
+            }
+        }
     }
 
     public void startGame(final View view) {
-        final ImageButton sanctuary = findViewById(R.id.sanctuary);
-        PopupMenu popup = new PopupMenu(MainActivity.this, sanctuary);
-        popup.getMenuInflater().inflate(R.menu.select_sanctuary, popup.getMenu());
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+        menuSanctuaries.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
                 int selected = item.getItemId();
+                if (selected == R.id.look_for){
+                    // TODO: implement looking for
+                    return true;
+                } else if (selected == R.id.set_up) {
+                    // TODO: implement set up santuary
+                    return true;
+                } else {
+                    sanctuary = new MainSanctuary(options.get(selected));
+                }
                 LinearLayout main = findViewById(R.id.main);
-                Integer selected_background = background.get(selected);
-                if (selected_background != null){
-                    main.setBackgroundResource(selected_background);
-                } ImageView color = findViewById(R.id.sanctuary_color);
-                Integer selected_color = sanctuary_color.get(selected);
-                if (selected_color != null) {
-                    color.setImageResource(selected_color);
-                } return true;
+                main.setBackgroundResource(sanctuary.getBackground());
+                ImageView color = findViewById(R.id.sanctuary_color);
+                color.setImageResource(sanctuary.getColor());
+                structurePoints.setText(String.valueOf(sanctuary.getStructurePoints()));
+                willPoints.setText(String.valueOf(sanctuary.getWillPoints()));
+                return true;
             }
-        });
-        popup.show();
+        }); menuSanctuaries.show();
         gameStatus = new GameStatus();
         structurePoints.setText(gameStatus.getStructurePoints());
         structurePoints.setOnClickListener(new OnClickListener(){
@@ -411,18 +394,12 @@ public class MainActivity extends AppCompatActivity
 
     private void nextCard(int cardId, VirtueCard virtue){
         try{
-            Object chosen = virtue.nextVirtue();
-            Log.d(msg, "Virtue at random: " + chosen);
+            CardPair chosen = virtue.nextVirtue();
+            Log.d(msg, "Virtue at random: " + chosen.getDisplay());
             ImageButton card = findViewById(cardId);
-            Integer card_selected = card_to_show.get(chosen);
-            if (card_selected != null) {
-                card.setImageResource(card_selected);
-            } else Log.w(msg, "Wrong getting card selected");
-            Integer card_chosen = new_card.get(chosen);
-            if (card_chosen != null) {
-                ImageView mini_view = findViewById(card_chosen);
-                mini_view.setVisibility(View.VISIBLE);
-            } else Log.w(msg, "Wrong getting displayable card");
+            card.setImageResource(chosen.getCardImage());
+            ImageView mini_view = findViewById(chosen.getDisplay());
+            mini_view.setVisibility(View.VISIBLE);
         } catch (IndexOutOfBoundsException e){
             Toast.makeText(MainActivity.this,
                     R.string.shuffle,

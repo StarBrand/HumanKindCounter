@@ -42,8 +42,7 @@
     <string name="dis_trans">Transparent Display Boxes</string>
     <string name="select_sanctuary">Select sanctuary</string>
     <string name="set_up_stats">Set up stats</string>
-    <string name="looking">Looking for...</string>
-    <string name="_">" "</string>
+    <string name="looking">Looking for…</string>
     <string name="select_faction">Select your Faction</string>
     <string name="will_points">Will Points</string>
     <string name="will_placeholder">4</string>
@@ -51,4 +50,5 @@
     <string name="structure_points">Structure Points</string>
     <string name="ok">OK</string>
     <string name="edition">Edition</string>
+    <string name="id">\t#\t</string>
 </resources>
