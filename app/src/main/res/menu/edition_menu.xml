@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/ev"
+        android:title="@string/ev"
+        android:icon="@mipmap/edition_ev"/>
+    <item
+        android:id="@+id/dv"
+        android:title="@string/dv"/>
+    <item
+        android:id="@+id/su"
+        android:title="@string/su"/>
+    <item
+        android:id="@+id/ra"
+        android:title="@string/ra"/>
+</menu>

@@ -14,11 +14,11 @@ public class NumericalVirtue extends VirtueCard{
      */
     public void shuffleCards(){
         super.shuffleCards();
-        addAvailable(R.id.minus_two, R.drawable.card_minus_two);
-        addAvailable(R.id.minus_one, R.drawable.card_minus_one);
-        addAvailable(R.id.zero, R.drawable.card_zero);
-        addAvailable(R.id.plus_one, R.drawable.card_plus_one);
-        addAvailable(R.id.plus_two, R.drawable.card_plus_two);
+        addAvailable(R.drawable.minus_two, R.drawable.card_minus_two);
+        addAvailable(R.drawable.minus_one, R.drawable.card_minus_one);
+        addAvailable(R.drawable.zero, R.drawable.card_zero);
+        addAvailable(R.drawable.plus_one, R.drawable.card_plus_one);
+        addAvailable(R.drawable.plus_two, R.drawable.card_plus_two);
     }
 
 }

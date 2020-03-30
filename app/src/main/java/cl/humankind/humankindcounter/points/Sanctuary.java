@@ -14,24 +14,36 @@ public class Sanctuary {
     private Integer color;
     private Integer background;
 
-    public Sanctuary(Sanctuary aSanctuary){
+    private Sanctuary(String name, int structure, int will){
+        this.name = name;
+        structurePoints = structure;
+        willPoints = will;
         createColorMap();
         createBackgroundMap();
-        name = aSanctuary.name;
-        structurePoints = aSanctuary.structurePoints;
-        willPoints = aSanctuary.willPoints;
+    }
+
+    public Sanctuary(Sanctuary aSanctuary){
+        this(aSanctuary.name, aSanctuary.structurePoints, aSanctuary.willPoints);
         color = aSanctuary.color;
         background = aSanctuary.background;
     }
 
     public Sanctuary(String name, int structure, int will, String faction){
-        createColorMap();
-        createBackgroundMap();
-        structurePoints = structure;
-        willPoints = will;
+        this(name, structure, will);
         color = colorMap.get(faction);
         background = backgroundMap.get(faction);
-        this.name = name;
+    }
+
+    public Sanctuary(String name, int structure, int will, int faction)
+            throws IndexOutOfBoundsException{
+        this(name, structure, will);
+        if (faction > 5 || faction < 0){
+            throw new IndexOutOfBoundsException("No faction associates with integer provided");
+        }
+        String[] factions = new String[]{"chimera", "abysmal",
+                "corpo", "acracia", "none"};
+        color = colorMap.get(factions[faction]);
+        background = backgroundMap.get(factions[faction]);
     }
 
     private void createColorMap(){
@@ -70,19 +82,6 @@ public class Sanctuary {
 
     public Integer getBackground(){
         return background;
-    }
-
-    protected void setStructurePoints(int structure){
-        structurePoints = structure;
-    }
-
-    protected void setWillPoints(int will){
-        willPoints = will;
-    }
-
-    protected void setFaction(String faction){
-        color = colorMap.get(faction);
-        background = backgroundMap.get(faction);
     }
 
 }

@@ -1,5 +1,6 @@
 package cl.humankind.humankindcounter;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -7,8 +8,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -58,6 +59,16 @@ public class MainActivity extends AppCompatActivity
             R.id.cache_1, R.id.cache_2, R.id.cache_3,
             R.id.cache_4, R.id.cache_5
     };
+    private int[] display_faction = new int[]{
+            R.id.faction_box_1, R.id.faction_box_2, R.id.faction_box_3,
+            R.id.faction_box_4, R.id.faction_box_5
+    };
+    private int current_display_faction = 0;
+    private int[] display_numerical = new int[]{
+            R.id.numerical_box_1, R.id.numerical_box_2, R.id.numerical_box_3,
+            R.id.numerical_box_4, R.id.numerical_box_5
+    };
+    private int current_display_numerical = 0;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -83,12 +94,29 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         SanctuariesDatabaseHelper sanctuariesHelper = new SanctuariesDatabaseHelper(this);
         sanctuaries = sanctuariesHelper.getReadableDatabase();
-        String get_cache_sql = "SELECT name, structure, will, faction\n" +
+        String get_cache_sql = "SELECT user_preference.\"index\", name, structure, will, faction\n" +
                 "FROM user_preference JOIN sanctuaries\n" +
                 "ON user_preference.\"index\" = sanctuaries.\"index\"\n" +
-                "ORDER BY uses DESC, timestamp DESC;";
+                "ORDER BY timestamp DESC LIMIT 1;";
         Cursor cursor = sanctuaries.rawQuery(get_cache_sql,null);
-        while (cursor.moveToNext()){
+        int index_to_exclude = 1000;
+        if (cursor.moveToNext()){
+            Log.d(msg, "Sanctuary on cache: " +
+                    cursor.getString(cursor.getColumnIndex("name")));
+            index_to_exclude = cursor.getInt(cursor.getColumnIndex("index"));
+            sanctuaryCache.addSanctuary(
+                    cursor.getString(cursor.getColumnIndex("name")),
+                    cursor.getInt(cursor.getColumnIndex("structure")),
+                    cursor.getInt(cursor.getColumnIndex("will")),
+                    cursor.getString(cursor.getColumnIndex("faction")));
+        }
+        get_cache_sql = "SELECT name, structure, will, faction\n" +
+                "FROM user_preference JOIN sanctuaries\n" +
+                "ON user_preference.\"index\" = sanctuaries.\"index\"\n" +
+                "WHERE user_preference.\"index\" != " + index_to_exclude + " \n" +
+                "ORDER BY uses DESC, timestamp DESC LIMIT 4;";
+        cursor = sanctuaries.rawQuery(get_cache_sql,null);
+        while (cursor.moveToNext()) {
             Log.d(msg, "Sanctuary on cache: " +
                     cursor.getString(cursor.getColumnIndex("name")));
             sanctuaryCache.addSanctuary(
@@ -97,8 +125,7 @@ public class MainActivity extends AppCompatActivity
                     cursor.getInt(cursor.getColumnIndex("will")),
                     cursor.getString(cursor.getColumnIndex("faction"))
             );
-        }
-        cursor.close();
+        } cursor.close();
         sanctuaries.close();
         setContentView(R.layout.activity_main);
         options = new HashMap<>();
@@ -133,38 +160,15 @@ public class MainActivity extends AppCompatActivity
             public boolean onMenuItemClick(MenuItem item) {
                 int selected = item.getItemId();
                 if (selected == R.id.look_for){
-                    // TODO: implement looking for
-                    return true;
+                    lookForPopup(view);
                 } else if (selected == R.id.set_up) {
-                    // TODO: implement set up santuary
-                    return true;
+                    setUpPopup(view);
                 } else {
                     sanctuary = new MainSanctuary(options.get(selected));
-                }
-                LinearLayout main = findViewById(R.id.main);
-                main.setBackgroundResource(sanctuary.getBackground());
-                ImageView color = findViewById(R.id.sanctuary_color);
-                color.setImageResource(sanctuary.getColor());
-                structurePoints.setText(String.valueOf(sanctuary.getStructurePoints()));
-                willPoints.setText(String.valueOf(sanctuary.getWillPoints()));
-                return true;
+                    settingSanctuary();
+                } return true;
             }
         }); menuSanctuaries.show();
-        gameStatus = new GameStatus();
-        structurePoints.setText(gameStatus.getStructurePoints());
-        structurePoints.setOnClickListener(new OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                popupStructure(v);
-            }
-        });
-        willPoints.setText(gameStatus.getWillPoints());
-        willPoints.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popupWill(v);
-            }
-        });
         ImageButton minus_structure = findViewById(R.id.minus_structure);
         minus_structure.setOnClickListener(new OnClickListener() {
             @Override
@@ -209,21 +213,166 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    private View popupWindow(View view, int questionId, int hintId, int hitItId)
-            throws NullPointerException{
-        final View popup;
-        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-        if (inflater != null)
-            popup = inflater.inflate(R.layout.popup_points,null);
-        else {
-            Log.w(msg, "Inflater get null");
-            throw new NullPointerException();
-        } popupPointsWindow = new PopupWindow(
+    private void settingSanctuary(){
+        Log.d(msg, "Setting sanctuary");
+        LinearLayout main = findViewById(R.id.main);
+        main.setBackgroundResource(sanctuary.getBackground());
+        ImageView color = findViewById(R.id.sanctuary_color);
+        color.setImageResource(sanctuary.getColor());
+        gameStatus = new GameStatus(
+                sanctuary.getStructurePoints(),
+                sanctuary.getWillPoints()
+        );
+        structurePoints.setText(gameStatus.getStructurePoints());
+        structurePoints.setOnClickListener(new OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                popupStructure(v);
+            }
+        });
+        willPoints.setText(gameStatus.getWillPoints());
+        willPoints.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWill(v);
+            }
+        });
+    }
+
+    private void lookForPopup(final View view){
+        final View popup = View.inflate(this, R.layout.look_for, null);
+        final PopupWindow lookForSanctuary = new PopupWindow(
+                popup, LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT, true
+        );
+        lookForSanctuary.showAtLocation(view, Gravity.CENTER, 0, 0);
+        final String[] edition_selected = {"ev"};
+        Button ok_button = popup.findViewById(R.id.ok_button);
+        final Button edition = popup.findViewById(R.id.select_edition);
+        edition.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context wrapper = new ContextThemeWrapper(MainActivity.this,
+                        R.style.PopupMenuTheme);
+                PopupMenu editionMenu = new PopupMenu(wrapper, edition);
+                editionMenu.getMenuInflater().inflate(R.menu.edition_menu,
+                        editionMenu.getMenu());
+                editionMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch(item.getItemId()){
+                            case R.id.ev:
+                                edition_selected[0] = "ev";
+                                edition.setText(R.string.ev);
+                                break;
+                            case R.id.dv:
+                                edition_selected[0] = "dv";
+                                edition.setText(R.string.dv);
+                                break;
+                            case R.id.su:
+                                edition_selected[0] = "su";
+                                edition.setText(R.string.su);
+                                break;
+                            case R.id.ra:
+                                edition_selected[0] = "ra";
+                                edition.setText(R.string.ra);
+                                break;
+                        }
+                        return true;
+                    }
+                }); editionMenu.show();
+            }
+        });
+        ok_button.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                lookForSanctuary.dismiss();
+            }
+        });
+    }
+
+    private void setUpPopup(final View view){
+        final View popup = View.inflate(this, R.layout.set_up,null);
+        final PopupWindow setUpSanctuary = new PopupWindow(
+                popup, LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT, true
+        );
+        setUpSanctuary.showAtLocation(view, Gravity.CENTER, 0, 0);
+        Button ok_button = popup.findViewById(R.id.ok_button);
+        final Button faction = popup.findViewById(R.id.select_faction);
+        final String[] faction_selected = {"none"};
+        faction.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context wrapper = new ContextThemeWrapper(MainActivity.this,
+                        R.style.PopupMenuTheme);
+                PopupMenu factionMenu = new PopupMenu(wrapper, faction);
+                factionMenu.getMenuInflater().inflate(R.menu.faction_menu,
+                        factionMenu.getMenu());
+                factionMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch(item.getItemId()){
+                            case R.id.chimera:
+                                faction_selected[0] = "chimera";
+                                faction.setText(R.string.chimera);
+                                break;
+                            case R.id.abysmal:
+                                faction_selected[0] = "abysmal";
+                                faction.setText(R.string.abysmal);
+                                break;
+                            case R.id.corpo:
+                                faction_selected[0] = "corpo";
+                                faction.setText(R.string.corpo);
+                                break;
+                            case R.id.acracia:
+                                faction_selected[0] = "acracia";
+                                faction.setText(R.string.acracia);
+                                break;
+                            case R.id.none:
+                                faction_selected[0] = "none";
+                                faction.setText(R.string.no_faction);
+                                break;
+                        }
+                        return true;
+                    }
+                }); factionMenu.show();
+            }
+        });
+        ok_button.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(msg, faction_selected[0]);
+                int structure;
+                int will;
+                try {
+                    structure = Integer.parseInt(String.valueOf(
+                            ((EditText) popup.findViewById(R.id.set_structure))
+                                    .getText()));
+                } catch (NumberFormatException e) {
+                    structure = 12;
+                }
+                try {
+                    will = Integer.parseInt(String.valueOf(
+                            ((EditText) popup.findViewById(R.id.set_will))
+                                    .getText()));
+                } catch (NumberFormatException e) {
+                    will = 4;
+                }
+                sanctuary = new MainSanctuary(structure, will, faction_selected[0]);
+                setUpSanctuary.dismiss();
+                settingSanctuary();
+            }
+        });
+    }
+
+    private View popupWindow(View view, int questionId, int hintId, int hitItId){
+        final View popup = View.inflate(this, R.layout.popup_points, null);
+        popupPointsWindow = new PopupWindow(
                 popup, LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT, true
         );
         popupPointsWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
-        popupPointsWindow.setFocusable(true);
         ((TextView) popup.findViewById(R.id.question)).setText(questionId);
         ((EditText) popup.findViewById(R.id.hits)).setHint(hintId);
         ((Button) popup.findViewById(R.id.hit_it)).setText(hitItId);
@@ -240,7 +389,6 @@ public class MainActivity extends AppCompatActivity
         hits.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(msg, "Here inside");
                 EditText hits = structure_popup.findViewById(R.id.hits);
                 try {
                     int hit_points = Integer.parseInt(String.valueOf(hits.getText()));
@@ -385,21 +533,29 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void nextNumericalCard(View view){
-        nextCard(R.id.card_numerical, numerical);
+        nextCard(R.id.card_numerical, numerical, display_numerical, false);
     }
 
     public void nextFactionCard(View view){
-        nextCard(R.id.card_faction, faction);
+        nextCard(R.id.card_faction, faction, display_faction, true);
     }
 
-    private void nextCard(int cardId, VirtueCard virtue){
+    private void nextCard(int cardId, VirtueCard virtue, int[] display, boolean faction){
         try{
             CardPair chosen = virtue.nextVirtue();
             Log.d(msg, "Virtue at random: " + chosen.getDisplay());
             ImageButton card = findViewById(cardId);
             card.setImageResource(chosen.getCardImage());
-            ImageView mini_view = findViewById(chosen.getDisplay());
+            ImageView mini_view;
+            if (faction) {
+                mini_view = findViewById(display[current_display_faction]);
+                current_display_faction += 1;
+            } else {
+                mini_view = findViewById(display[current_display_numerical]);
+                current_display_numerical += 1;
+            }
             mini_view.setVisibility(View.VISIBLE);
+            mini_view.setImageResource(chosen.getDisplay());
         } catch (IndexOutOfBoundsException e){
             Toast.makeText(MainActivity.this,
                     R.string.shuffle,
@@ -415,13 +571,11 @@ public class MainActivity extends AppCompatActivity
         numerical.shuffleCards();
         ImageButton card = findViewById(R.id.card_numerical);
         card.setImageResource(R.drawable.numerical_back);
-        for(int display:new int[]{
-                R.id.minus_two, R.id.minus_one, R.id.zero,
-                R.id.plus_one, R.id.plus_two
-        }){
+        for(int display:display_numerical){
             ImageView display_view = findViewById(display);
             display_view.setVisibility(View.INVISIBLE);
         }
+        current_display_numerical = 0;
         Toast.makeText(MainActivity.this,
                 R.string.shuffled,
                 Toast.LENGTH_SHORT).show();
@@ -431,13 +585,11 @@ public class MainActivity extends AppCompatActivity
         faction.shuffleCards();
         ImageButton card = findViewById(R.id.card_faction);
         card.setImageResource(R.drawable.faction_back);
-        for(int display:new int[]{
-                R.id.chimera, R.id.abysmal, R.id.corpo,
-                R.id.acracia, R.id.none
-        }){
+        for(int display:display_faction){
             ImageView display_view = findViewById(display);
             display_view.setVisibility(View.INVISIBLE);
         }
+        current_display_faction = 0;
         Toast.makeText(MainActivity.this,
                 R.string.shuffled,
                 Toast.LENGTH_SHORT).show();

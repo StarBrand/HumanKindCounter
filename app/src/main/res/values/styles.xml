@@ -8,5 +8,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
     <style name="SettingTheme" parent="Theme.AppCompat.Light.DarkActionBar"/>
+    <style name="PopupMenuTheme" parent="Widget.AppCompat.PopupMenu">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:itemBackground">@android:color/black</item>
+    </style>
 
 </resources>

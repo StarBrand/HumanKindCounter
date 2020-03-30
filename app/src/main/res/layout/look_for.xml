@@ -10,58 +10,56 @@
         android:layout_height="wrap_content"
         android:layout_gravity="start"
         android:gravity="start"
-        android:textSize="20sp"
+        android:textSize="25sp"
         android:textColor="@android:color/white"
         android:text="@string/edition"/>
 
-    <Spinner
+    <Button
         android:id="@+id/select_edition"
         android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:alpha="0.4"
-        android:background="@android:color/darker_gray"
-        android:textColor="@android:color/black"/>
+        android:layout_height="wrap_content"
+        android:text="@string/edition"/>
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="10dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:gravity="start"
+        android:textSize="25sp"
+        android:textColor="@android:color/white"
+        android:text="@string/san"/>
     
     <LinearLayout
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:textSize="20sp"
-            android:textColor="@android:color/white"
-            android:text="@string/id"/>
-
-        <Spinner
+        <AutoCompleteTextView
             android:id="@+id/select_id"
-            android:layout_width="20dp"
-            android:layout_height="match_parent"
-            android:alpha="0.4"
-            android:background="@android:color/darker_gray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:hint="@string/id"
+            android:background="@android:color/white"
             android:textColor="@android:color/black"/>
 
         <Space
-            android:layout_width="5dp"
+            android:layout_width="10dp"
             android:layout_height="match_parent"/>
 
-        <Spinner
-            android:id="@+id/name"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:alpha="0.4"
-            android:background="@android:color/darker_gray"
+        <AutoCompleteTextView
+            android:id="@+id/select_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:hint="@string/san"
+            android:background="@android:color/white"
             android:textColor="@android:color/black"/>
         
     </LinearLayout>
 
     <Button
+        android:id="@+id/ok_button"
         android:gravity="center"
         android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"

@@ -2,7 +2,8 @@
     <string name="placeholder">Place Holder</string>
     <string name="app_name">HumanKind Counter</string>
     <string name="shuffle_cards">Shuffle cards</string>
-    <string name="none">No faction</string>
+    <string name="faction">Faction</string>
+    <string name="none">No Faction</string>
     <string name="chimera">Chimera</string>
     <string name="abysmal">Abysmal</string>
     <string name="corpo">Corporation</string>
@@ -50,5 +51,19 @@
     <string name="structure_points">Structure Points</string>
     <string name="ok">OK</string>
     <string name="edition">Edition</string>
-    <string name="id">\t#\t</string>
+    <string name="id">#</string>
+    <string name="faction_box_1">Faction Box 1</string>
+    <string name="faction_box_2">Faction Box 2</string>
+    <string name="faction_box_3">Faction Box 3</string>
+    <string name="faction_box_4">Faction Box 4</string>
+    <string name="faction_box_5">Faction Box 5</string>
+    <string name="numerical_box_1">Numerical Box 1</string>
+    <string name="numerical_box_2">Numerical Box 2</string>
+    <string name="numerical_box_3">Numerical Box 3</string>
+    <string name="numerical_box_4">Numerical Box 4</string>
+    <string name="numerical_box_5">Numerical Box 5</string>
+    <string name="ev">Evolución</string>
+    <string name="dv">Desviantes</string>
+    <string name="su">Suburbia</string>
+    <string name="ra">Radix</string>
 </resources>

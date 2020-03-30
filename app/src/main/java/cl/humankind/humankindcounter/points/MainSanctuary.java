@@ -10,16 +10,8 @@ public class MainSanctuary extends Sanctuary {
         super("main", structure, will, faction);
     }
 
-    public void setStructurePoints(int structure){
-        super.setStructurePoints(structure);
-    }
-
-    public void setWillPoints(int will){
-        super.setWillPoints(will);
-    }
-
-    public void setFaction(String faction){
-        super.setFaction(faction);
+    public MainSanctuary(int structure, int will, int faction){
+        super("main", structure, will, faction);
     }
 
 }

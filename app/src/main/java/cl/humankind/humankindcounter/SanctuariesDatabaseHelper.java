@@ -45,7 +45,7 @@ public class SanctuariesDatabaseHelper extends SQLiteOpenHelper {
     }
 
     private void installDatabaseFromAssets(){
-        if ((!checkDatabaseExist()) || checkIfOutdated()) {
+        if (!checkDatabaseExist()) {
             try {
                 if (context.deleteDatabase(NAME)){
                     Log.d(msg, "Database deleted");

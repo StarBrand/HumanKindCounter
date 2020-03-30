@@ -18,7 +18,7 @@ public abstract class VirtueCard {
     /**
      * Get next virtue and delete pass ones
      *
-     * @return Value of display id and card image drawable
+     * @return Image of display id and card image drawable
      */
     public CardPair nextVirtue(){
         if (available.size() == 0) {
@@ -45,7 +45,7 @@ public abstract class VirtueCard {
     /**
      * Add parameter to available values of card
      *
-     * @param mini_view: Id of mini view on display
+     * @param mini_view: Drawable id of mini view on display
      * @param drawable: Drawable object to put on card
      */
     void addAvailable(int mini_view, int drawable){

@@ -36,13 +36,19 @@
         <item>ra</item>
     </string-array>
 
-    <integer-array name="to_show">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-    </integer-array>
+    <string-array name="faction_arrays">
+        <item>Quimera</item>
+        <item>Abismales</item>
+        <item>Corporación</item>
+        <item>Acracia</item>
+        <item>Sin Facción</item>
+    </string-array>
+
+    <string-array name="edition_arrays">
+        <item>Evolución</item>
+        <item>Desviantes</item>
+        <item>Suburbia</item>
+        <item>Radix</item>
+    </string-array>
 
 </resources>
