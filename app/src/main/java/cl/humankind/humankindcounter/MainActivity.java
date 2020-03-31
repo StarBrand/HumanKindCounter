@@ -336,7 +336,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setUpPopup(final View view){
-        final View popup = View.inflate(this, R.layout.set_up,null);
+        final View popup = View.inflate(MainActivity.this, R.layout.set_up, null);
         final PopupWindow setUpSanctuary = new PopupWindow(
                 popup, LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT, true
@@ -733,5 +733,9 @@ public class MainActivity extends AppCompatActivity
         } cursor.close();
         database.close();
     }
+
+    /*
+    * To
+     */
 
 }

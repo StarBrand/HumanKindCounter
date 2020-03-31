@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="cl.humankind.humankindcounter">
-
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
     <application
         android:allowBackup="true"
         android:fullBackupContent="true"
@@ -23,11 +23,9 @@
             android:theme="@style/SettingTheme"
             android:parentActivityName=".MainActivity"
             tools:targetApi="jelly_bean">
-
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value=".MainActivity"/>
         </activity>
     </application>
-
 </manifest>
