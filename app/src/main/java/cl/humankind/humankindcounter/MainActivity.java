@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
@@ -15,6 +16,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -22,13 +26,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.PopupWindow;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 import cl.humankind.humankindcounter.cards.CardPair;
@@ -49,12 +56,13 @@ public class MainActivity extends AppCompatActivity
     private GameStatus gameStatus;
     private SanctuaryCache sanctuaryCache;
     private MainSanctuary sanctuary;
-    private SQLiteDatabase sanctuaries;
-    private HashMap<Integer, Sanctuary> options;
+    private SQLiteOpenHelper sanctuaries;
     private PopupWindow popupPointsWindow;
     private PopupMenu menuSanctuaries;
     private Button structurePoints;
     private Button willPoints;
+    private HashMap<Integer, Sanctuary> options;
+    private HashMap<Integer, Sanctuary> candidates;
     private int[] cache = new int[] {
             R.id.cache_1, R.id.cache_2, R.id.cache_3,
             R.id.cache_4, R.id.cache_5
@@ -90,66 +98,29 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        sanctuaryCache = new SanctuaryCache();
         super.onCreate(savedInstanceState);
-        SanctuariesDatabaseHelper sanctuariesHelper = new SanctuariesDatabaseHelper(this);
-        sanctuaries = sanctuariesHelper.getReadableDatabase();
-        String get_cache_sql = "SELECT user_preference.\"index\", name, structure, will, faction\n" +
-                "FROM user_preference JOIN sanctuaries\n" +
-                "ON user_preference.\"index\" = sanctuaries.\"index\"\n" +
-                "ORDER BY timestamp DESC LIMIT 1;";
-        Cursor cursor = sanctuaries.rawQuery(get_cache_sql,null);
-        int index_to_exclude = 1000;
-        if (cursor.moveToNext()){
-            Log.d(msg, "Sanctuary on cache: " +
-                    cursor.getString(cursor.getColumnIndex("name")));
-            index_to_exclude = cursor.getInt(cursor.getColumnIndex("index"));
-            sanctuaryCache.addSanctuary(
-                    cursor.getString(cursor.getColumnIndex("name")),
-                    cursor.getInt(cursor.getColumnIndex("structure")),
-                    cursor.getInt(cursor.getColumnIndex("will")),
-                    cursor.getString(cursor.getColumnIndex("faction")));
-        }
-        get_cache_sql = "SELECT name, structure, will, faction\n" +
-                "FROM user_preference JOIN sanctuaries\n" +
-                "ON user_preference.\"index\" = sanctuaries.\"index\"\n" +
-                "WHERE user_preference.\"index\" != " + index_to_exclude + " \n" +
-                "ORDER BY uses DESC, timestamp DESC LIMIT 4;";
-        cursor = sanctuaries.rawQuery(get_cache_sql,null);
-        while (cursor.moveToNext()) {
-            Log.d(msg, "Sanctuary on cache: " +
-                    cursor.getString(cursor.getColumnIndex("name")));
-            sanctuaryCache.addSanctuary(
-                    cursor.getString(cursor.getColumnIndex("name")),
-                    cursor.getInt(cursor.getColumnIndex("structure")),
-                    cursor.getInt(cursor.getColumnIndex("will")),
-                    cursor.getString(cursor.getColumnIndex("faction"))
-            );
-        } cursor.close();
-        sanctuaries.close();
+        setCache();
         setContentView(R.layout.activity_main);
-        options = new HashMap<>();
         structurePoints = findViewById(R.id.structure_points);
         willPoints = findViewById(R.id.will_points);
+        candidates = new HashMap<>();
         setOptions(5);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
     }
 
     private void setOptions(int toShow){
+        options = new HashMap<>();
         ImageButton sanctuaryButton = findViewById(R.id.sanctuary);
         menuSanctuaries = new PopupMenu(MainActivity.this, sanctuaryButton);
         menuSanctuaries.getMenuInflater().inflate(R.menu.select_sanctuary,
                 menuSanctuaries.getMenu());
         for(int i = 0; i < toShow || !sanctuaryCache.cacheEmpty(); i++) {
             MenuItem item = menuSanctuaries.getMenu().findItem(cache[i]);
-            if (options.size() <= i) {
-                Sanctuary toAdd = sanctuaryCache.getSanctuary();
-                options.put(cache[i], toAdd);
-            } else Log.d(msg, "Options already set");
-            Sanctuary aSanctuary = options.get(cache[i]);
-            if (aSanctuary != null) {
-                item.setTitle(aSanctuary.getName());
+            Sanctuary toAdd = sanctuaryCache.getSanctuary();
+            options.put(cache[i], toAdd);
+            if (toAdd != null) {
+                item.setTitle(toAdd.getName());
                 item.setVisible(true);
             }
         }
@@ -215,10 +186,36 @@ public class MainActivity extends AppCompatActivity
 
     private void settingSanctuary(){
         Log.d(msg, "Setting sanctuary");
+        SQLiteDatabase database = sanctuaries.getWritableDatabase();
         LinearLayout main = findViewById(R.id.main);
         main.setBackgroundResource(sanctuary.getBackground());
         ImageView color = findViewById(R.id.sanctuary_color);
         color.setImageResource(sanctuary.getColor());
+        int used = sanctuary.getIndex();
+        if (used != -1) {
+            Cursor cursor = database.rawQuery(String.format(Locale.US,
+                    "SELECT \"index\" FROM user_preference WHERE \"index\" = %d;", used),
+                    null);
+            String sql;
+            double timestamp = System.currentTimeMillis() / 1000.0;
+            Log.d(msg, "Timestamp to register: " + timestamp);
+            if(cursor.moveToNext()){
+                Log.d(msg, "Increasing uses of " + used);
+                sql = String.format(Locale.US,
+                        "UPDATE user_preference SET uses = uses + 1, timestamp = %f \n" +
+                                "WHERE \"index\" = %d;",
+                        timestamp, used);
+            } else {
+                Log.d(msg, "Registering " + used);
+                sql = String.format(Locale.US,
+                        "INSERT INTO user_preference(\"index\", uses, timestamp) \n" +
+                                "VALUES (%d, 1, %f);",
+                        used, timestamp);
+            }
+            database.execSQL(sql);
+            cursor.close();
+            database.close();
+        } else Log.d(msg, "Sanctuary set, not picked up");
         gameStatus = new GameStatus(
                 sanctuary.getStructurePoints(),
                 sanctuary.getWillPoints()
@@ -237,21 +234,26 @@ public class MainActivity extends AppCompatActivity
                 popupWill(v);
             }
         });
+        setCache();
+        setOptions(5);
     }
 
     private void lookForPopup(final View view){
         final View popup = View.inflate(this, R.layout.look_for, null);
         final PopupWindow lookForSanctuary = new PopupWindow(
-                popup, LinearLayout.LayoutParams.WRAP_CONTENT,
+                popup, LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT, true
         );
         lookForSanctuary.showAtLocation(view, Gravity.CENTER, 0, 0);
-        final String[] edition_selected = {"ev"};
         Button ok_button = popup.findViewById(R.id.ok_button);
         final Button edition = popup.findViewById(R.id.select_edition);
+        final Spinner enterId = popup.findViewById(R.id.select_id);
+        final AutoCompleteTextView enterName = popup.findViewById(R.id.select_name);
+        final String[] edition_selected = new String[1];
+        final HashMap[] coordinates = new HashMap[1];
         edition.setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 Context wrapper = new ContextThemeWrapper(MainActivity.this,
                         R.style.PopupMenuTheme);
                 PopupMenu editionMenu = new PopupMenu(wrapper, edition);
@@ -260,7 +262,7 @@ public class MainActivity extends AppCompatActivity
                 editionMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        switch(item.getItemId()){
+                        switch(item.getItemId()) {
                             case R.id.ev:
                                 edition_selected[0] = "ev";
                                 edition.setText(R.string.ev);
@@ -278,15 +280,57 @@ public class MainActivity extends AppCompatActivity
                                 edition.setText(R.string.ra);
                                 break;
                         }
+                        Log.d(msg, "Edition selected: " + edition_selected[0]);
+                        coordinates[0] = fillAutocomplete(edition_selected[0], enterId, enterName);
                         return true;
                     }
                 }); editionMenu.show();
             }
         });
+        final int[] id_selected = new int[1];
+        id_selected[0] = -1;
+        enterId.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Object got = parent.getItemAtPosition(position);
+                if (got != null) id_selected[0] = (int) got;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                id_selected[0] = -1;
+                Log.d(msg, "No id selected");
+            }
+        });
         ok_button.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                Integer idReceived;
+                Log.d(msg, "Sanctuary name selected: " + enterName.getText());
+                if (coordinates[0] == null){
+                    Toast.makeText(
+                            MainActivity.this,
+                            R.string.sanctuary_error,
+                            Toast.LENGTH_LONG
+                    ).show();
+                    return;
+                }
+                idReceived = (Integer) coordinates[0].get(String.valueOf(enterName.getText()));
+                if (idReceived != null) {
+                    Log.d(msg, "Sanctuary id selected: " + idReceived);
+                } else if (id_selected[0] != -1) {
+                    Log.d(msg, "Sanctuary id selected: " + id_selected[0]);
+                    idReceived = id_selected[0];
+                } else {
+                    Toast.makeText(
+                            MainActivity.this,
+                            R.string.sanctuary_no_picked_up,
+                            Toast.LENGTH_LONG
+                    ).show();
+                    return;
+                } sanctuary = new MainSanctuary(candidates.get(idReceived));
                 lookForSanctuary.dismiss();
+                settingSanctuary();
             }
         });
     }
@@ -608,6 +652,86 @@ public class MainActivity extends AppCompatActivity
         Locale.setDefault(locale);
         configuration.locale = locale;
         getResources().updateConfiguration(configuration, null);
+    }
+
+    private HashMap<String, Integer> fillAutocomplete(String edition, Spinner enterId,
+                                                    AutoCompleteTextView enterName){
+        SQLiteDatabase database = sanctuaries.getReadableDatabase();
+        String sql = "SELECT \"index\", \"id\", name, faction, structure, will \n" +
+                "FROM sanctuaries WHERE edition = \"" + edition + "\";";
+        Cursor cursor = database.rawQuery(sql, null);
+        List<Integer> ids = new ArrayList<>();
+        List<String> names = new ArrayList<>();
+        candidates.clear();
+        HashMap<String, Integer> coordinate = new HashMap<>();
+        int found = 0;
+        while (cursor.moveToNext()){
+            found++;
+            Integer anId = cursor.getInt(cursor.getColumnIndex("id"));
+            String sanctuaryName = cursor.getString(cursor.getColumnIndex("name"));
+            ids.add(anId);
+            names.add(sanctuaryName);
+            coordinate.put(sanctuaryName, anId);
+            String faction = cursor.getString(cursor.getColumnIndex("faction"));
+            Log.d(msg, "Faction found: " + faction);
+            candidates.put(anId, new Sanctuary(
+                    cursor.getInt(cursor.getColumnIndex("index")),
+                    sanctuaryName,
+                    cursor.getInt(cursor.getColumnIndex("structure")),
+                    cursor.getInt(cursor.getColumnIndex("will")),
+                    faction
+            ));
+        } cursor.close();
+        database.close();
+        Log.d(msg, "Database found " + found + " sanctuaries");
+        ArrayAdapter<Integer> adapterId = new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1, ids);
+        enterId.setAdapter(adapterId);
+        ArrayAdapter<String> adapterName = new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1, names);
+        enterName.setAdapter(adapterName);
+        return coordinate;
+    }
+
+    private void setCache(){
+        sanctuaryCache = new SanctuaryCache();
+        sanctuaries = new SanctuariesDatabaseHelper(this);
+        SQLiteDatabase database = sanctuaries.getReadableDatabase();
+        String get_cache_sql = "SELECT user_preference.\"index\", name, structure, will, faction\n" +
+                "FROM user_preference JOIN sanctuaries\n" +
+                "ON user_preference.\"index\" = sanctuaries.\"index\"\n" +
+                "ORDER BY timestamp DESC LIMIT 1;";
+        Cursor cursor = database.rawQuery(get_cache_sql, null);
+        int index_to_exclude = 1000;
+        if (cursor.moveToNext()){
+            Log.d(msg, "Sanctuary on cache: " +
+                    cursor.getString(cursor.getColumnIndex("name")));
+            index_to_exclude = cursor.getInt(cursor.getColumnIndex("index"));
+            sanctuaryCache.addSanctuary(
+                    index_to_exclude,
+                    cursor.getString(cursor.getColumnIndex("name")),
+                    cursor.getInt(cursor.getColumnIndex("structure")),
+                    cursor.getInt(cursor.getColumnIndex("will")),
+                    cursor.getString(cursor.getColumnIndex("faction")));
+        }
+        get_cache_sql = "SELECT sanctuaries.\"index\", name, structure, will, faction\n" +
+                "FROM user_preference JOIN sanctuaries\n " +
+                "ON user_preference.\"index\" = sanctuaries.\"index\"\n " +
+                "WHERE user_preference.\"index\" != " + index_to_exclude + " \n " +
+                "ORDER BY uses DESC, timestamp DESC LIMIT 4;";
+        cursor = database.rawQuery(get_cache_sql, null);
+        while (cursor.moveToNext()) {
+            String name_log = cursor.getString(cursor.getColumnIndex("name"));
+            Log.d(msg, "Sanctuary on cache: " + name_log);
+            sanctuaryCache.addSanctuary(
+                    cursor.getInt(cursor.getColumnIndex("index")),
+                    name_log,
+                    cursor.getInt(cursor.getColumnIndex("structure")),
+                    cursor.getInt(cursor.getColumnIndex("will")),
+                    cursor.getString(cursor.getColumnIndex("faction"))
+            );
+        } cursor.close();
+        database.close();
     }
 
 }

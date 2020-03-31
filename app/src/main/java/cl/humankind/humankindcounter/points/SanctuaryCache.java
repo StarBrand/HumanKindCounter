@@ -11,8 +11,8 @@ public class SanctuaryCache {
         sanctuaries = new LinkedList<>();
     }
 
-    public void addSanctuary(String name, int structure, int will, String faction){
-        sanctuaries.add(new Sanctuary(name, structure, will, faction));
+    public void addSanctuary(int index, String name, int structure, int will, String faction){
+        sanctuaries.add(new Sanctuary(index, name, structure, will, faction));
     }
 
     public Sanctuary getSanctuary(){

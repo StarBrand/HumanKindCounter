@@ -66,4 +66,6 @@
     <string name="dv">Desviantes</string>
     <string name="su">Suburbia</string>
     <string name="ra">Radix</string>
+    <string name="sanctuary_error">Ingresa una edición para buscar tu Santuario</string>
+    <string name="sanctuary_no_picked_up">Selecciona el id o ingresa el nombre de tu Santuario</string>
 </resources>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:drawable/alert_dark_frame">
 
@@ -31,15 +31,14 @@
     
     <LinearLayout
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:orientation="horizontal">
 
-        <AutoCompleteTextView
+        <Spinner
             android:id="@+id/select_id"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
             android:textSize="25sp"
-            android:hint="@string/id"
             android:background="@android:color/white"
             android:textColor="@android:color/black"/>
 
@@ -49,7 +48,7 @@
 
         <AutoCompleteTextView
             android:id="@+id/select_name"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="25sp"
             android:hint="@string/san"

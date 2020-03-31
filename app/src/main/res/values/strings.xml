@@ -66,4 +66,6 @@
     <string name="dv">Desviantes</string>
     <string name="su">Suburbia</string>
     <string name="ra">Radix</string>
+    <string name="sanctuary_error">Enter edition to look for your sanctuary</string>
+    <string name="sanctuary_no_picked_up">Select the id or write the name of your Sanctuary</string>
 </resources>

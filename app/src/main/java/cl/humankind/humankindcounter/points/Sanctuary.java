@@ -8,13 +8,15 @@ public class Sanctuary {
 
     private int structurePoints;
     private int willPoints;
+    private int index;
     private String name;
     private HashMap<String, Integer> colorMap;
     private HashMap<String, Integer> backgroundMap;
     private Integer color;
     private Integer background;
 
-    private Sanctuary(String name, int structure, int will){
+    private Sanctuary(int index, String name, int structure, int will){
+        this.index = index;
         this.name = name;
         structurePoints = structure;
         willPoints = will;
@@ -23,20 +25,20 @@ public class Sanctuary {
     }
 
     public Sanctuary(Sanctuary aSanctuary){
-        this(aSanctuary.name, aSanctuary.structurePoints, aSanctuary.willPoints);
+        this(aSanctuary.index, aSanctuary.name, aSanctuary.structurePoints, aSanctuary.willPoints);
         color = aSanctuary.color;
         background = aSanctuary.background;
     }
 
-    public Sanctuary(String name, int structure, int will, String faction){
-        this(name, structure, will);
+    public Sanctuary(int index, String name, int structure, int will, String faction){
+        this(index, name, structure, will);
         color = colorMap.get(faction);
         background = backgroundMap.get(faction);
     }
 
-    public Sanctuary(String name, int structure, int will, int faction)
+    public Sanctuary(int index, String name, int structure, int will, int faction)
             throws IndexOutOfBoundsException{
-        this(name, structure, will);
+        this(index, name, structure, will);
         if (faction > 5 || faction < 0){
             throw new IndexOutOfBoundsException("No faction associates with integer provided");
         }
@@ -53,6 +55,7 @@ public class Sanctuary {
         colorMap.put("corpo", R.drawable.color_red);
         colorMap.put("acracia", R.drawable.color_yellow);
         colorMap.put("none", R.drawable.color_white);
+        colorMap.put("chimera/acracia", R.drawable.color_blueyellow);
     }
 
     private void createBackgroundMap(){
@@ -62,6 +65,11 @@ public class Sanctuary {
         backgroundMap.put("corpo", R.drawable.back_corpo);
         backgroundMap.put("acracia", R.drawable.back_acracia);
         backgroundMap.put("none", R.color.colorBack);
+        backgroundMap.put("chimera/acracia", R.drawable.back_special);
+    }
+
+    public int getIndex(){
+        return index;
     }
 
     public String getName(){

@@ -7,11 +7,11 @@ public class MainSanctuary extends Sanctuary {
     }
 
     public MainSanctuary(int structure, int will, String faction){
-        super("main", structure, will, faction);
+        super(-1, "main", structure, will, faction);
     }
 
     public MainSanctuary(int structure, int will, int faction){
-        super("main", structure, will, faction);
+        super(-1, "main", structure, will, faction);
     }
 
 }
