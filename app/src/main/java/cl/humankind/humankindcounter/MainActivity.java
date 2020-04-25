@@ -1,6 +1,5 @@
 package cl.humankind.humankindcounter;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -9,8 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.ContextThemeWrapper;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,7 +17,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -239,61 +237,64 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void lookForPopup(final View view){
-        final View popup = View.inflate(this, R.layout.look_for, null);
+        if (this.isFinishing()){
+            Log.d(msg, "Process is finishing");
+            return;
+        }
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        final View popup = inflater.inflate(R.layout.look_for, null);
+        if (popup == null) return;
         final PopupWindow lookForSanctuary = new PopupWindow(
                 popup, LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT, true
         );
         lookForSanctuary.showAtLocation(view, Gravity.CENTER, 0, 0);
         Button ok_button = popup.findViewById(R.id.ok_button);
-        final Button edition = popup.findViewById(R.id.select_edition);
+        final Spinner edition = popup.findViewById(R.id.select_edition);
         final Spinner enterId = popup.findViewById(R.id.select_id);
-        final AutoCompleteTextView enterName = popup.findViewById(R.id.select_name);
+        final Spinner enterName = popup.findViewById(R.id.select_name);
         final String[] edition_selected = new String[1];
         final HashMap[] coordinates = new HashMap[1];
-        edition.setOnClickListener(new OnClickListener() {
+        ArrayAdapter<CharSequence> adapterEdition = ArrayAdapter.createFromResource(this,
+                R.array.edition_arrays, android.R.layout.simple_spinner_item);
+        adapterEdition.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        edition.setAdapter(adapterEdition);
+        edition.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onClick(View view) {
-                Context wrapper = new ContextThemeWrapper(MainActivity.this,
-                        R.style.PopupMenuTheme);
-                PopupMenu editionMenu = new PopupMenu(wrapper, edition);
-                editionMenu.getMenuInflater().inflate(R.menu.edition_menu,
-                        editionMenu.getMenu());
-                editionMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        switch(item.getItemId()) {
-                            case R.id.ev:
-                                edition_selected[0] = "ev";
-                                edition.setText(R.string.ev);
-                                break;
-                            case R.id.dv:
-                                edition_selected[0] = "dv";
-                                edition.setText(R.string.dv);
-                                break;
-                            case R.id.su:
-                                edition_selected[0] = "su";
-                                edition.setText(R.string.su);
-                                break;
-                            case R.id.ra:
-                                edition_selected[0] = "ra";
-                                edition.setText(R.string.ra);
-                                break;
-                        }
-                        Log.d(msg, "Edition selected: " + edition_selected[0]);
-                        coordinates[0] = fillAutocomplete(edition_selected[0], enterId, enterName);
-                        return true;
-                    }
-                }); editionMenu.show();
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch(position) {
+                    case 0:
+                        edition_selected[0] = "ev";
+                        break;
+                    case 1:
+                        edition_selected[0] = "dv";
+                        break;
+                    case 2:
+                        edition_selected[0] = "su";
+                        break;
+                    case 3:
+                        edition_selected[0] = "ra";
+                        break;
+                } Log.d(msg, "Edition selected: " + edition_selected[0]);
+                coordinates[0] = fillAutocomplete(edition_selected[0], enterId, enterName);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
             }
         });
         final int[] id_selected = new int[1];
         id_selected[0] = -1;
+        final String[] name_selected = new String[1];
+        name_selected[0] = "";
         enterId.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Object got = parent.getItemAtPosition(position);
-                if (got != null) id_selected[0] = (int) got;
+                if (got != null){
+                    id_selected[0] = (int) got;
+                    enterName.setSelection(position);
+                }
             }
 
             @Override
@@ -302,11 +303,27 @@ public class MainActivity extends AppCompatActivity
                 Log.d(msg, "No id selected");
             }
         });
+        enterName.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Object got = parent.getItemAtPosition(position);
+                if (got != null){
+                    name_selected[0] = (String) got;
+                    enterId.setSelection(position);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                name_selected[0] = "";
+                Log.d(msg, "No id selected");
+            }
+        });
         ok_button.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 Integer idReceived;
-                Log.d(msg, "Sanctuary name selected: " + enterName.getText());
+                Log.d(msg, "Sanctuary name selected: " + name_selected[0]);
                 if (coordinates[0] == null){
                     Toast.makeText(
                             MainActivity.this,
@@ -315,7 +332,7 @@ public class MainActivity extends AppCompatActivity
                     ).show();
                     return;
                 }
-                idReceived = (Integer) coordinates[0].get(String.valueOf(enterName.getText()));
+                idReceived = (Integer) coordinates[0].get(name_selected[0]);
                 if (idReceived != null) {
                     Log.d(msg, "Sanctuary id selected: " + idReceived);
                 } else if (id_selected[0] != -1) {
@@ -336,51 +353,51 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setUpPopup(final View view){
-        final View popup = View.inflate(MainActivity.this, R.layout.set_up, null);
+        if (this.isFinishing()){
+            Log.d(msg, "Process is finishing");
+            return;
+        }
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        final View popup = inflater.inflate(R.layout.set_up, null);
+        if (popup == null) return;
         final PopupWindow setUpSanctuary = new PopupWindow(
                 popup, LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT, true
         );
         setUpSanctuary.showAtLocation(view, Gravity.CENTER, 0, 0);
         Button ok_button = popup.findViewById(R.id.ok_button);
-        final Button faction = popup.findViewById(R.id.select_faction);
+        final Spinner faction = popup.findViewById(R.id.select_faction);
         final String[] faction_selected = {"none"};
-        faction.setOnClickListener(new OnClickListener() {
+        ArrayAdapter<CharSequence> adapterFaction = ArrayAdapter.createFromResource(this,
+                R.array.faction_arrays, android.R.layout.simple_spinner_item);
+        adapterFaction.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        faction.setAdapter(adapterFaction);
+        faction.setSelection(4);
+        faction.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onClick(View v) {
-                Context wrapper = new ContextThemeWrapper(MainActivity.this,
-                        R.style.PopupMenuTheme);
-                PopupMenu factionMenu = new PopupMenu(wrapper, faction);
-                factionMenu.getMenuInflater().inflate(R.menu.faction_menu,
-                        factionMenu.getMenu());
-                factionMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        switch(item.getItemId()){
-                            case R.id.chimera:
-                                faction_selected[0] = "chimera";
-                                faction.setText(R.string.chimera);
-                                break;
-                            case R.id.abysmal:
-                                faction_selected[0] = "abysmal";
-                                faction.setText(R.string.abysmal);
-                                break;
-                            case R.id.corpo:
-                                faction_selected[0] = "corpo";
-                                faction.setText(R.string.corpo);
-                                break;
-                            case R.id.acracia:
-                                faction_selected[0] = "acracia";
-                                faction.setText(R.string.acracia);
-                                break;
-                            case R.id.none:
-                                faction_selected[0] = "none";
-                                faction.setText(R.string.no_faction);
-                                break;
-                        }
-                        return true;
-                    }
-                }); factionMenu.show();
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch(position) {
+                    case 0:
+                        faction_selected[0] = "chimera";
+                        break;
+                    case 1:
+                        faction_selected[0] = "abysmal";
+                        break;
+                    case 2:
+                        faction_selected[0] = "corpo";
+                        break;
+                    case 3:
+                        faction_selected[0] = "acracia";
+                        break;
+                    default:
+                        faction_selected[0] = "none";
+                        break;
+                } Log.d(msg, "Faction selected: " + faction_selected[0]);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                faction_selected[0] = "none";
             }
         });
         ok_button.setOnClickListener(new OnClickListener() {
@@ -655,7 +672,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private HashMap<String, Integer> fillAutocomplete(String edition, Spinner enterId,
-                                                    AutoCompleteTextView enterName){
+                                                    Spinner enterName){
         SQLiteDatabase database = sanctuaries.getReadableDatabase();
         String sql = "SELECT \"index\", \"id\", name, faction, structure, will \n" +
                 "FROM sanctuaries WHERE edition = \"" + edition + "\";";
@@ -664,6 +681,7 @@ public class MainActivity extends AppCompatActivity
         List<String> names = new ArrayList<>();
         candidates.clear();
         HashMap<String, Integer> coordinate = new HashMap<>();
+        coordinate.put("", -1);
         int found = 0;
         while (cursor.moveToNext()){
             found++;

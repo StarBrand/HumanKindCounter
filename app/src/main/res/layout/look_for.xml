@@ -14,11 +14,15 @@
         android:textColor="@android:color/white"
         android:text="@string/edition"/>
 
-    <Button
+    <Spinner
         android:id="@+id/select_edition"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/edition"/>
+        android:layout_height="35dp"
+        android:spinnerMode="dialog"
+        android:prompt="@string/edition"
+        android:textSize="25sp"
+        android:background="@android:color/white"
+        android:textColor="@android:color/black"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -38,6 +42,8 @@
             android:id="@+id/select_id"
             android:layout_width="70dp"
             android:layout_height="match_parent"
+            android:spinnerMode="dialog"
+            android:prompt="@string/id"
             android:textSize="25sp"
             android:background="@android:color/white"
             android:textColor="@android:color/black"/>
@@ -46,12 +52,13 @@
             android:layout_width="10dp"
             android:layout_height="match_parent"/>
 
-        <AutoCompleteTextView
+        <Spinner
             android:id="@+id/select_name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="35dp"
+            android:spinnerMode="dialog"
+            android:prompt="@string/san"
             android:textSize="25sp"
-            android:hint="@string/san"
             android:background="@android:color/white"
             android:textColor="@android:color/black"/>
         
