@@ -36,7 +36,7 @@
 
         <ListPreference
             android:key="san_show"
-            android:title="Favorite Sanctuaries to show"
+            android:title="@string/san_to_show"
             android:entries="@array/to_show"
             android:entryValues="@array/to_show"/>
 
