@@ -10,7 +10,46 @@
             android:key="language"
             android:title="@string/language"
             android:entries="@array/language"
-            android:entryValues="@array/languageValue"/>
+            android:entryValues="@array/language_values"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/visual_options">
+
+        <ListPreference
+            android:key="num_ed"
+            android:title="@string/num_ed"
+            android:entries="@array/num_ed"
+            android:entryValues="@array/num_ed_values"/>
+
+        <ListPreference
+            android:key="fac_ed"
+            android:title="@string/fac_ed"
+            android:entries="@array/fac_ed"
+            android:entryValues="@array/fac_ed_values"/>
+
+        <CheckBoxPreference
+            android:key="transparency"
+            android:title="@string/dis_trans"
+            android:defaultValue="false"/>
+
+        <ListPreference
+            android:key="san_show"
+            android:title="Favorite Sanctuaries to show"
+            android:entries="@array/to_show"
+            android:entryValues="@array/to_show"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/information">
+
+        <Preference
+            android:key="about"
+            android:title="@string/about">
+            <intent android:action=""/>
+        </Preference>
 
     </PreferenceCategory>
 

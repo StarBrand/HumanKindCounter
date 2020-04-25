@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:drawable/alert_dark_frame">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:gravity="start"
+        android:textSize="25sp"
+        android:textColor="@android:color/white"
+        android:text="@string/edition"/>
+
+    <Spinner
+        android:id="@+id/select_edition"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:spinnerMode="dialog"
+        android:prompt="@string/edition"
+        android:textSize="25sp"
+        android:background="@android:color/white"
+        android:textColor="@android:color/black"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:gravity="start"
+        android:textSize="25sp"
+        android:textColor="@android:color/white"
+        android:text="@string/san"/>
+    
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="horizontal">
+
+        <Spinner
+            android:id="@+id/select_id"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:spinnerMode="dialog"
+            android:prompt="@string/id"
+            android:textSize="25sp"
+            android:background="@android:color/white"
+            android:textColor="@android:color/black"/>
+
+        <Space
+            android:layout_width="10dp"
+            android:layout_height="match_parent"/>
+
+        <Spinner
+            android:id="@+id/select_name"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:spinnerMode="dialog"
+            android:prompt="@string/san"
+            android:textSize="25sp"
+            android:background="@android:color/white"
+            android:textColor="@android:color/black"/>
+        
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/ok_button"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
+        android:text="@string/ok"/>
+
+</LinearLayout>

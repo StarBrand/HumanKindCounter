@@ -6,9 +6,49 @@
         <item>Español</item>
     </string-array>
 
-    <string-array name="languageValue">
+    <string-array name="language_values">
         <item>null</item>
         <item>en</item>
         <item>es</item>
     </string-array>
+
+    <string-array name="num_ed">
+        <item>Sobres de Virtud</item>
+        <item>Radix</item>
+    </string-array>
+
+    <string-array name="num_ed_values">
+        <item>vrt</item>
+        <item>ra</item>
+    </string-array>
+
+    <string-array name="fac_ed">
+        <item>Sobres de Virtud</item>
+        <item>Evolución (frente)</item>
+        <item>Evolución (detrás)</item>
+        <item>Radix</item>
+    </string-array>
+
+    <string-array name="fac_ed_values">
+        <item>vrt</item>
+        <item>ev_front</item>
+        <item>ev_back</item>
+        <item>ra</item>
+    </string-array>
+
+    <string-array name="faction_arrays">
+        <item>Quimera</item>
+        <item>Abismales</item>
+        <item>Corporación</item>
+        <item>Acracia</item>
+        <item>Sin Facción</item>
+    </string-array>
+
+    <string-array name="edition_arrays">
+        <item>Evolución</item>
+        <item>Desviantes</item>
+        <item>Suburbia</item>
+        <item>Radix</item>
+    </string-array>
+
 </resources>

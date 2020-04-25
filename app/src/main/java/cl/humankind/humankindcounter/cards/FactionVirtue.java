@@ -1,12 +1,16 @@
 package cl.humankind.humankindcounter.cards;
 
+import cl.humankind.humankindcounter.R;
+
 public class FactionVirtue extends VirtueCard {
 
     @Override
     public void shuffleCards() {
         super.shuffleCards();
-        for(String faction: new String[]{"qm", "ab", "co", "ac", "none"}){
-            addAvailable(faction);
-        }
+        addAvailable(R.drawable.chimera, R.drawable.card_chimera);
+        addAvailable(R.drawable.abysmal, R.drawable.card_abysmal);
+        addAvailable(R.drawable.corpo, R.drawable.card_corpo);
+        addAvailable(R.drawable.acracia, R.drawable.card_acracia);
+        addAvailable(R.drawable.blank, R.drawable.card_blank);
     }
 }
