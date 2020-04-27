@@ -21,7 +21,7 @@
             android:key="num_ed"
             android:title="@string/num_ed"
             android:entries="@array/num_ed"
-            android:entryValues="@array/num_ed_values"/>
+            android:entryValues="@array/num_ed_values" />
 
         <ListPreference
             android:key="fac_ed"

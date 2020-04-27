@@ -48,7 +48,12 @@ import cl.humankind.humankindcounter.points.SanctuaryCache;
 public class MainActivity extends AppCompatActivity
         implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-    String msg = "Android : ";
+    private static final String MSG = "Android : ";
+    private static final float ALPHA_VALUE = 0.3f;
+    private static final float NO_ALPHA = 1.0f;
+    private int toShow;
+    boolean transparency = false;
+    private Configuration configuration;
     private VirtueCard numerical = new NumericalVirtue();
     private VirtueCard faction = new FactionVirtue();
     private GameStatus gameStatus;
@@ -97,23 +102,47 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setCache();
+        Log.d(MSG, "On Create");
+        toShow = 5;
+        configuration = new Configuration(getResources().getConfiguration());
         setContentView(R.layout.activity_main);
         structurePoints = findViewById(R.id.structure_points);
         willPoints = findViewById(R.id.will_points);
         candidates = new HashMap<>();
-        setOptions(5);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
+        sharedPreferences.edit().putBoolean("transparency", transparency).apply();
+        onRestart();
     }
 
-    private void setOptions(int toShow){
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.d(MSG, "Transparency " + transparency);
+        if (transparency){
+            Log.d(MSG, "On true transparency");
+            findViewById(R.id.display_faction).setAlpha(ALPHA_VALUE);
+            findViewById(R.id.display_numerical).setAlpha(ALPHA_VALUE);
+        }
+        else{
+            Log.d(MSG, "On false transparency");
+            findViewById(R.id.display_faction).setAlpha(NO_ALPHA);
+            findViewById(R.id.display_numerical).setAlpha(NO_ALPHA);
+        }
+        setCache();
+        setOptions();
+        Log.d(MSG, "Restarted");
+    }
+
+    private void setOptions(){
         options = new HashMap<>();
         ImageButton sanctuaryButton = findViewById(R.id.sanctuary);
         menuSanctuaries = new PopupMenu(MainActivity.this, sanctuaryButton);
         menuSanctuaries.getMenuInflater().inflate(R.menu.select_sanctuary,
                 menuSanctuaries.getMenu());
-        for(int i = 0; i < toShow || !sanctuaryCache.cacheEmpty(); i++) {
+        Log.d(MSG, "Sancturies to show: " + toShow);
+        for(int i = 0; i < toShow && !sanctuaryCache.cacheEmpty(); i++) {
+            Log.d(MSG, String.valueOf(i));
             MenuItem item = menuSanctuaries.getMenu().findItem(cache[i]);
             Sanctuary toAdd = sanctuaryCache.getSanctuary();
             options.put(cache[i], toAdd);
@@ -183,7 +212,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void settingSanctuary(){
-        Log.d(msg, "Setting sanctuary");
+        Log.d(MSG, "Setting sanctuary");
         SQLiteDatabase database = sanctuaries.getWritableDatabase();
         LinearLayout main = findViewById(R.id.main);
         main.setBackgroundResource(sanctuary.getBackground());
@@ -196,15 +225,15 @@ public class MainActivity extends AppCompatActivity
                     null);
             String sql;
             double timestamp = System.currentTimeMillis() / 1000.0;
-            Log.d(msg, "Timestamp to register: " + timestamp);
+            Log.d(MSG, "Timestamp to register: " + timestamp);
             if(cursor.moveToNext()){
-                Log.d(msg, "Increasing uses of " + used);
+                Log.d(MSG, "Increasing uses of " + used);
                 sql = String.format(Locale.US,
                         "UPDATE user_preference SET uses = uses + 1, timestamp = %f \n" +
                                 "WHERE \"index\" = %d;",
                         timestamp, used);
             } else {
-                Log.d(msg, "Registering " + used);
+                Log.d(MSG, "Registering " + used);
                 sql = String.format(Locale.US,
                         "INSERT INTO user_preference(\"index\", uses, timestamp) \n" +
                                 "VALUES (%d, 1, %f);",
@@ -213,7 +242,7 @@ public class MainActivity extends AppCompatActivity
             database.execSQL(sql);
             cursor.close();
             database.close();
-        } else Log.d(msg, "Sanctuary set, not picked up");
+        } else Log.d(MSG, "Sanctuary set, not picked up");
         gameStatus = new GameStatus(
                 sanctuary.getStructurePoints(),
                 sanctuary.getWillPoints()
@@ -233,12 +262,12 @@ public class MainActivity extends AppCompatActivity
             }
         });
         setCache();
-        setOptions(5);
+        setOptions();
     }
 
     private void lookForPopup(final View view){
         if (this.isFinishing()){
-            Log.d(msg, "Process is finishing");
+            Log.d(MSG, "Process is finishing");
             return;
         }
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -275,7 +304,7 @@ public class MainActivity extends AppCompatActivity
                     case 3:
                         edition_selected[0] = "ra";
                         break;
-                } Log.d(msg, "Edition selected: " + edition_selected[0]);
+                } Log.d(MSG, "Edition selected: " + edition_selected[0]);
                 coordinates[0] = fillAutocomplete(edition_selected[0], enterId, enterName);
             }
 
@@ -300,7 +329,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 id_selected[0] = -1;
-                Log.d(msg, "No id selected");
+                Log.d(MSG, "No id selected");
             }
         });
         enterName.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -316,14 +345,14 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 name_selected[0] = "";
-                Log.d(msg, "No id selected");
+                Log.d(MSG, "No id selected");
             }
         });
         ok_button.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 Integer idReceived;
-                Log.d(msg, "Sanctuary name selected: " + name_selected[0]);
+                Log.d(MSG, "Sanctuary name selected: " + name_selected[0]);
                 if (coordinates[0] == null){
                     Toast.makeText(
                             MainActivity.this,
@@ -334,9 +363,9 @@ public class MainActivity extends AppCompatActivity
                 }
                 idReceived = (Integer) coordinates[0].get(name_selected[0]);
                 if (idReceived != null) {
-                    Log.d(msg, "Sanctuary id selected: " + idReceived);
+                    Log.d(MSG, "Sanctuary id selected: " + idReceived);
                 } else if (id_selected[0] != -1) {
-                    Log.d(msg, "Sanctuary id selected: " + id_selected[0]);
+                    Log.d(MSG, "Sanctuary id selected: " + id_selected[0]);
                     idReceived = id_selected[0];
                 } else {
                     Toast.makeText(
@@ -354,7 +383,7 @@ public class MainActivity extends AppCompatActivity
 
     private void setUpPopup(final View view){
         if (this.isFinishing()){
-            Log.d(msg, "Process is finishing");
+            Log.d(MSG, "Process is finishing");
             return;
         }
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -392,7 +421,7 @@ public class MainActivity extends AppCompatActivity
                     default:
                         faction_selected[0] = "none";
                         break;
-                } Log.d(msg, "Faction selected: " + faction_selected[0]);
+                } Log.d(MSG, "Faction selected: " + faction_selected[0]);
             }
 
             @Override
@@ -403,7 +432,7 @@ public class MainActivity extends AppCompatActivity
         ok_button.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(msg, faction_selected[0]);
+                Log.d(MSG, faction_selected[0]);
                 int structure;
                 int will;
                 try {
@@ -453,7 +482,7 @@ public class MainActivity extends AppCompatActivity
                 EditText hits = structure_popup.findViewById(R.id.hits);
                 try {
                     int hit_points = Integer.parseInt(String.valueOf(hits.getText()));
-                    Log.d(msg, "Hits: " + hit_points);
+                    Log.d(MSG, "Hits: " + hit_points);
                     gameStatus.delStructure(hit_points);
                     structurePoints.setText(gameStatus.getStructurePoints());
                     if (!gameStatus.getStatus()){
@@ -463,7 +492,7 @@ public class MainActivity extends AppCompatActivity
                                 Toast.LENGTH_LONG).show();
                         endGame();}
                 } catch (NumberFormatException e){
-                    Log.w(msg, "Error getting hits");
+                    Log.w(MSG, "Error getting hits");
                 } hits.setText(null);
                 popupPointsWindow.dismiss();
             }
@@ -474,7 +503,8 @@ public class MainActivity extends AppCompatActivity
         gameStatus.delStructure(1);
         structurePoints.setText(gameStatus.getStructurePoints());
         if (! gameStatus.getStatus()){
-            Toast.makeText(MainActivity.this, R.string.no_structure, Toast.LENGTH_LONG).show();
+            Toast.makeText(
+                    MainActivity.this, R.string.no_structure, Toast.LENGTH_LONG).show();
             endGame();
         }
     }
@@ -497,11 +527,11 @@ public class MainActivity extends AppCompatActivity
                 EditText hits = structure_popup.findViewById(R.id.hits);
                 try {
                     int hit_points = Integer.parseInt(String.valueOf(hits.getText()));
-                    Log.d(msg, "Recover: " + hit_points);
+                    Log.d(MSG, "Recover: " + hit_points);
                     gameStatus.addStructure(hit_points);
                     structurePoints.setText(gameStatus.getStructurePoints());
                 } catch (NumberFormatException e){
-                    Log.w(msg, "Error getting hits");
+                    Log.w(MSG, "Error getting hits");
                 } hits.setText(null);
                 popupPointsWindow.dismiss();
             }
@@ -521,7 +551,7 @@ public class MainActivity extends AppCompatActivity
                 EditText hits = will_points.findViewById(R.id.hits);
                 try {
                     int hit_points = Integer.parseInt(String.valueOf(hits.getText()));
-                    Log.d(msg, "Spends: " + hit_points);
+                    Log.d(MSG, "Spends: " + hit_points);
                     try {
                         gameStatus.delWill(hit_points);
                         willPoints.setText(gameStatus.getWillPoints());
@@ -529,7 +559,7 @@ public class MainActivity extends AppCompatActivity
                         Toast.makeText(MainActivity.this, R.string.no_will,
                                 Toast.LENGTH_LONG).show();}
                 } catch (NumberFormatException e){
-                    Log.w(msg, "Error getting hits");
+                    Log.w(MSG, "Error getting hits");
                 } hits.setText(null);
                 popupPointsWindow.dismiss();
             }
@@ -565,11 +595,11 @@ public class MainActivity extends AppCompatActivity
                 EditText hits = will_pop.findViewById(R.id.hits);
                 try {
                     int hit_points = Integer.parseInt(String.valueOf(hits.getText()));
-                    Log.d(msg, "Add: " + hit_points);
+                    Log.d(MSG, "Add: " + hit_points);
                     gameStatus.addWill(hit_points);
                     willPoints.setText(gameStatus.getWillPoints());
                 } catch (NumberFormatException e){
-                    Log.w(msg, "Error getting hits");
+                    Log.w(MSG, "Error getting hits");
                 } hits.setText(null);
                 popupPointsWindow.dismiss();
             }
@@ -604,7 +634,7 @@ public class MainActivity extends AppCompatActivity
     private void nextCard(int cardId, VirtueCard virtue, int[] display, boolean faction){
         try{
             CardPair chosen = virtue.nextVirtue();
-            Log.d(msg, "Virtue at random: " + chosen.getDisplay());
+            Log.d(MSG, "Virtue at random: " + chosen.getDisplay());
             ImageButton card = findViewById(cardId);
             card.setImageResource(chosen.getCardImage());
             ImageView mini_view;
@@ -659,16 +689,22 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         String language_selected = sharedPreferences.getString("language", "null");
-        Configuration configuration = new Configuration(getResources().getConfiguration());
         Locale locale;
-        Log.d(msg, "Selected language: " + language_selected);
+        Log.d(MSG, "Selected language: " + language_selected);
         if (language_selected.equals("null")) {
             language_selected = Locale.getDefault().getDisplayLanguage();
-        } Log.d(msg, "Selected language: " + language_selected);
+        } Log.d(MSG, "Selected language: " + language_selected);
         locale = new Locale(language_selected);
         Locale.setDefault(locale);
         configuration.locale = locale;
         getResources().updateConfiguration(configuration, null);
+        transparency = sharedPreferences.getBoolean("transparency", false);
+        Log.d(MSG, "Transparency " + transparency);
+        try{
+            toShow = Integer.parseInt(sharedPreferences.getString("san_show", "5"));
+        } catch (Exception ignore){
+            toShow = 5;
+        } Log.d(MSG, "Sanctuaries to show: " + toShow);
     }
 
     private HashMap<String, Integer> fillAutocomplete(String edition, Spinner enterId,
@@ -691,7 +727,7 @@ public class MainActivity extends AppCompatActivity
             names.add(sanctuaryName);
             coordinate.put(sanctuaryName, anId);
             String faction = cursor.getString(cursor.getColumnIndex("faction"));
-            Log.d(msg, "Faction found: " + faction);
+            Log.d(MSG, "Faction found: " + faction);
             candidates.put(anId, new Sanctuary(
                     cursor.getInt(cursor.getColumnIndex("index")),
                     sanctuaryName,
@@ -701,7 +737,7 @@ public class MainActivity extends AppCompatActivity
             ));
         } cursor.close();
         database.close();
-        Log.d(msg, "Database found " + found + " sanctuaries");
+        Log.d(MSG, "Database found " + found + " sanctuaries");
         ArrayAdapter<Integer> adapterId = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, ids);
         enterId.setAdapter(adapterId);
@@ -722,7 +758,7 @@ public class MainActivity extends AppCompatActivity
         Cursor cursor = database.rawQuery(get_cache_sql, null);
         int index_to_exclude = 1000;
         if (cursor.moveToNext()){
-            Log.d(msg, "Sanctuary on cache: " +
+            Log.d(MSG, "Sanctuary on cache: " +
                     cursor.getString(cursor.getColumnIndex("name")));
             index_to_exclude = cursor.getInt(cursor.getColumnIndex("index"));
             sanctuaryCache.addSanctuary(
@@ -740,7 +776,7 @@ public class MainActivity extends AppCompatActivity
         cursor = database.rawQuery(get_cache_sql, null);
         while (cursor.moveToNext()) {
             String name_log = cursor.getString(cursor.getColumnIndex("name"));
-            Log.d(msg, "Sanctuary on cache: " + name_log);
+            Log.d(MSG, "Sanctuary on cache: " + name_log);
             sanctuaryCache.addSanctuary(
                     cursor.getInt(cursor.getColumnIndex("index")),
                     name_log,
@@ -751,9 +787,5 @@ public class MainActivity extends AppCompatActivity
         } cursor.close();
         database.close();
     }
-
-    /*
-    * To
-     */
 
 }

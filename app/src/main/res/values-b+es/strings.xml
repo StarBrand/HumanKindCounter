@@ -10,8 +10,8 @@
     <string name="acracia">Acracia</string>
     <string name="next_virtue">Siguiente Virtud</string>
     <string name="shuffle">Mezcla las cartas!</string>
-    <string name="display_faction_text">Facciones ya obtenidas:</string>
-    <string name="display_numerical_text">Virtudes ya obtenidas:</string>
+    <string name="display_faction_text">Facciones:</string>
+    <string name="display_numerical_text">Virtudes:</string>
     <string name="error">Un error inesperado ocurrió</string>
     <string name="shuffled">Cartas mezcladas</string>
     <string name="san">Santuario</string>
@@ -69,4 +69,34 @@
     <string name="sanctuary_error">Ingresa una edición para buscar tu Santuario</string>
     <string name="sanctuary_no_picked_up">Selecciona el id o ingresa el nombre de tu Santuario</string>
     <string name="san_to_show">Número de santuarios favoritos</string>
+    <string name="no_implemented">Siguiente versión</string>
+    <string name="about_info">
+        "Sobre la aplicación:\n\n"
+        "Esta app fue desarrollada sin fines de lucro para contribuir al JCC HumanKind"
+        "El código fue escrito por Juan Saez Hidalgo y las imágenes y diseño visual hecho por
+        Sebastian Saez Hidalgo"
+        "Queremos reconoce la ayuda directa al proyecto. Como los concejos en programación en
+        Android Studio hechos por Alonso Reyes. También, ayuda indirecta, como la textura metálica
+        de las cajas diseñada por kjpargeter / Freepik"
+        "Queremos agredecer también a todo el feedback hecho, y por hacer, de parte de la comunidad
+        HumanKind de JO"
+        "El código fuente está disponible en https://github.com/StarBrand/HumanKindCounter y
+        protegido por la licencia MIT\n\n"
+        "Copyright © 2020 Juan Saez Hidalgo\n"
+        "Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the \"Software\"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:\n\n"
+        "The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.\n"
+        "THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE."
+    </string>
 </resources>
