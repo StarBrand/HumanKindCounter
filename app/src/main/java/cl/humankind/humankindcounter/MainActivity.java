@@ -49,10 +49,8 @@ public class MainActivity extends AppCompatActivity
         implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final String MSG = "Android : ";
-    private static final float ALPHA_VALUE = 0.3f;
+    private static final float ALPHA_VALUE = 0.5f;
     private static final float NO_ALPHA = 1.0f;
-    private int toShow;
-    boolean transparency = false;
     private Configuration configuration;
     private VirtueCard numerical = new NumericalVirtue();
     private VirtueCard faction = new FactionVirtue();
@@ -80,6 +78,10 @@ public class MainActivity extends AppCompatActivity
             R.id.numerical_box_4, R.id.numerical_box_5
     };
     private int current_display_numerical = 0;
+    /* Preference values */
+    private int toShow;
+    private boolean transparency = false;
+    private String language_selected = Locale.getDefault().getDisplayLanguage();
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -131,6 +133,12 @@ public class MainActivity extends AppCompatActivity
         }
         setCache();
         setOptions();
+        Log.d(MSG, "Language " + language_selected);
+        Locale locale;
+        locale = new Locale(language_selected);
+        Locale.setDefault(locale);
+        configuration.locale = locale;
+        getResources().updateConfiguration(configuration, null);
         Log.d(MSG, "Restarted");
     }
 
@@ -688,16 +696,11 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        String language_selected = sharedPreferences.getString("language", "null");
-        Locale locale;
+        language_selected = sharedPreferences.getString("language", "null");
         Log.d(MSG, "Selected language: " + language_selected);
         if (language_selected.equals("null")) {
             language_selected = Locale.getDefault().getDisplayLanguage();
         } Log.d(MSG, "Selected language: " + language_selected);
-        locale = new Locale(language_selected);
-        Locale.setDefault(locale);
-        configuration.locale = locale;
-        getResources().updateConfiguration(configuration, null);
         transparency = sharedPreferences.getBoolean("transparency", false);
         Log.d(MSG, "Transparency " + transparency);
         try{

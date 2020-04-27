@@ -47,9 +47,7 @@
 
         <Preference
             android:key="about"
-            android:title="@string/about">
-            <intent android:action=""/>
-        </Preference>
+            android:title="@string/about"/>
 
     </PreferenceCategory>
 

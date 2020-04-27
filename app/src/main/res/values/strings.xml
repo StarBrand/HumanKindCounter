@@ -72,31 +72,31 @@
     <string name="no_implemented">Not implemented. Next version</string>
     <string name="about_info">
         "About this application:\n\n"
-        "This app was developed without profit to contribute the TCG HumanKind"
-        "The code was written by Juan Saez Hidalgo and the images and visual design was done by
-        Sebastian Saez Hidalgo"
-        "We want to acknowledge direct help on the project. Some advices were made by Alonso
-        Reyes on Android Studio programming. Also, indirect help, like the metallic texture on
-        display boxes was designed by kjpargeter / Freepik"
-        "We want to also thank for previous feedback, and future ones as well, for the
-        HumanKind OG community"
-        "The source code is available on https://github.com/StarBrand/HumanKindCounter and
-        it is protected by MIT licence\n\n"
+        "This app was developed without profit to contribute the TCG HumanKind.\n"
+        "The code was written by Juan Saez Hidalgo and the images and visual design was done by "
+        "Sebastian Saez Hidalgo.\n"
+        "We want to acknowledge direct help on the project. Some advices were made by Alonso "
+        "Reyes on Android Studio programming. Also, indirect help, like the metallic texture on "
+        "display boxes was designed by kjpargeter / Freepik\n"
+        "We want to also thank for previous feedback, and future ones as well, for the "
+        "HumanKind OG community.\n"
+        "The source code is available on https://github.com/StarBrand/HumanKindCounter and "
+        "it is protected by MIT licence\n\n"
         "Copyright © 2020 Juan Saez Hidalgo\n"
-        "Permission is hereby granted, free of charge, to any person obtaining a copy
-        of this software and associated documentation files (the \"Software\"), to deal
-        in the Software without restriction, including without limitation the rights
-        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-        copies of the Software, and to permit persons to whom the Software is
-        furnished to do so, subject to the following conditions:\n\n"
-        "The above copyright notice and this permission notice shall be included in all
-        copies or substantial portions of the Software.\n"
-        "THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-        SOFTWARE."
+        "Permission is hereby granted, free of charge, to any person obtaining a copy "
+        "of this software and associated documentation files (the \"Software\"), to deal "
+        "in the Software without restriction, including without limitation the rights "
+        "to use, copy, modify, merge, publish, distribute, sublicense, and/or sell "
+        "copies of the Software, and to permit persons to whom the Software is "
+        "furnished to do so, subject to the following conditions:\n\n"
+        "The above copyright notice and this permission notice shall be included in all "
+        "copies or substantial portions of the Software.\n"
+        "THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR "
+        "IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, "
+        "FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE "
+        "AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER "
+        "LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, "
+        "OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE "
+        "SOFTWARE."
     </string>
 </resources>
