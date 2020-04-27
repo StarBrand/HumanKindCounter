@@ -1,18 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/select_chimera"
-        android:title="@string/chimera"/>
+        android:id="@+id/look_for"
+        android:title="@string/looking"/>
     <item
-        android:id="@+id/select_abysmal"
-        android:title="@string/abysmal"/>
+        android:id="@+id/set_up"
+        android:title="@string/set_up_stats"/>
     <item
-        android:id="@+id/select_corpo"
-        android:title="@string/corpo"/>
+        android:id="@+id/cache_1"
+        android:title="@string/placeholder"
+        android:visible="false"/>
     <item
-        android:id="@+id/select_acracia"
-        android:title="@string/acracia"/>
+        android:id="@+id/cache_2"
+        android:title="@string/placeholder"
+        android:visible="false"/>
     <item
-        android:id="@+id/select_white"
-        android:title="@string/no_faction"/>
+        android:id="@+id/cache_3"
+        android:title="@string/placeholder"
+        android:visible="false"/>
+    <item
+        android:id="@+id/cache_4"
+        android:title="@string/placeholder"
+        android:visible="false"/>
+    <item
+        android:id="@+id/cache_5"
+        android:title="@string/placeholder"
+        android:visible="false"/>
 </menu>

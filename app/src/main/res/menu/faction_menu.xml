@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/chimera"
+        android:title="@string/chimera"
+        android:icon="@drawable/chimera"/>
+    <item
+        android:id="@+id/abysmal"
+        android:title="@string/abysmal"
+        android:icon="@drawable/abysmal"/>
+    <item
+        android:id="@+id/corpo"
+        android:title="@string/corpo"
+        android:icon="@drawable/corpo"/>
+    <item
+        android:id="@+id/acracia"
+        android:title="@string/acracia"
+        android:icon="@drawable/acracia"/>
+    <item
+        android:id="@+id/none"
+        android:title="@string/no_faction"
+        android:icon="@drawable/blank"/>
+</menu>

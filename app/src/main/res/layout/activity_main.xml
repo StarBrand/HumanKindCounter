@@ -71,69 +71,76 @@
                     android:contentDescription="@string/display_already_1"
                     android:src="@drawable/box" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:paddingStart="13dp"
-                    android:paddingLeft="13dp"
-                    android:paddingTop="4dp"
-                    android:paddingEnd="0dp"
-                    android:paddingRight="0dp"
-                    android:text="@string/display_faction_text"
-                    android:textColor="@android:color/black" />
-
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@id/box_faction"
-                    android:weightSum="5">
+                    android:layout_alignTop="@id/box_faction"
+                    android:layout_alignStart="@id/box_faction"
+                    android:layout_alignLeft="@id/box_faction"
+                    android:layout_alignEnd="@id/box_faction"
+                    android:layout_alignRight="@id/box_faction"
+                    android:orientation="vertical">
 
-                    <ImageView
-                        android:id="@+id/none"
-                        android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/faction_got"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:contentDescription="@string/none"
-                        android:src="@drawable/blank"
-                        android:visibility="gone" />
+                        android:gravity="center_horizontal"
+                        android:paddingStart="13dp"
+                        android:paddingLeft="13dp"
+                        android:paddingTop="4dp"
+                        android:paddingEnd="0dp"
+                        android:paddingRight="0dp"
+                        android:text="@string/display_faction_text"
+                        android:textColor="@android:color/black" />
 
-                    <ImageView
-                        android:id="@+id/chimera"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:contentDescription="@string/chimera"
-                        android:src="@drawable/chimera"
-                        android:visibility="gone" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:weightSum="5">
 
-                    <ImageView
-                        android:id="@+id/abysmal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:contentDescription="@string/abysmal"
-                        android:src="@drawable/abysmal"
-                        android:visibility="gone" />
+                        <ImageView
+                            android:id="@+id/faction_box_1"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:contentDescription="@string/faction_box_1" />
 
-                    <ImageView
-                        android:id="@+id/corpo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:contentDescription="@string/corpo"
-                        android:src="@drawable/corpo"
-                        android:visibility="gone" />
+                        <ImageView
+                            android:id="@+id/faction_box_2"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:contentDescription="@string/faction_box_2" />
 
-                    <ImageView
-                        android:id="@+id/acracia"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:contentDescription="@string/acracia"
-                        android:src="@drawable/acracia"
-                        android:visibility="gone" />
+                        <ImageView
+                            android:id="@+id/faction_box_3"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:contentDescription="@string/faction_box_3" />
+
+                        <ImageView
+                            android:id="@+id/faction_box_4"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:contentDescription="@string/faction_box_4" />
+
+                        <ImageView
+                            android:id="@+id/faction_box_5"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:contentDescription="@string/faction_box_5" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -197,7 +204,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:background="@android:color/transparent"
                 android:paddingTop="15dp">
 
                 <ImageView
@@ -207,68 +213,76 @@
                     android:contentDescription="@string/display_already_1"
                     android:src="@drawable/box" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:paddingStart="3dp"
-                    android:paddingLeft="3dp"
-                    android:paddingTop="4dp"
-                    android:paddingEnd="0dp"
-                    android:paddingRight="0dp"
-                    android:text="@string/display_numerical_text"
-                    android:textColor="@android:color/black" />
-
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@id/box_numerical"
-                    android:weightSum="5">
+                    android:layout_alignTop="@id/box_numerical"
+                    android:layout_alignStart="@id/box_numerical"
+                    android:layout_alignLeft="@id/box_numerical"
+                    android:layout_alignEnd="@id/box_numerical"
+                    android:layout_alignRight="@id/box_numerical"
+                    android:orientation="vertical">
 
-                    <ImageView
-                        android:id="@+id/minus_two"
+                    <TextView
+                        android:id="@+id/virtues_got"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:paddingStart="13dp"
+                        android:paddingLeft="13dp"
+                        android:paddingTop="4dp"
+                        android:paddingEnd="0dp"
+                        android:paddingRight="0dp"
+                        android:text="@string/display_numerical_text"
+                        android:textColor="@android:color/black" />
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:contentDescription="@string/none"
-                        android:src="@drawable/minus_two"
-                        android:visibility="gone" />
+                        android:weightSum="5">
 
-                    <ImageView
-                        android:id="@+id/minus_one"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:contentDescription="@string/chimera"
-                        android:src="@drawable/minus_one"
-                        android:visibility="gone" />
+                        <ImageView
+                            android:id="@+id/numerical_box_1"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:contentDescription="@string/numerical_box_1" />
 
-                    <ImageView
-                        android:id="@+id/zero"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:contentDescription="@string/abysmal"
-                        android:src="@drawable/zero"
-                        android:visibility="gone" />
+                        <ImageView
+                            android:id="@+id/numerical_box_2"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:contentDescription="@string/numerical_box_2" />
 
-                    <ImageView
-                        android:id="@+id/plus_one"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:contentDescription="@string/corpo"
-                        android:src="@drawable/plus_one"
-                        android:visibility="gone" />
+                        <ImageView
+                            android:id="@+id/numerical_box_3"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:contentDescription="@string/numerical_box_3" />
 
-                    <ImageView
-                        android:id="@+id/plus_two"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:contentDescription="@string/acracia"
-                        android:src="@drawable/plus_two"
-                        android:visibility="gone" />
+                        <ImageView
+                            android:id="@+id/numerical_box_4"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:contentDescription="@string/numerical_box_4" />
+
+                        <ImageView
+                            android:id="@+id/numerical_box_5"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:contentDescription="@string/numerical_box_5" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -378,7 +392,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
-                        android:textColor="@android:color/white"
+                        android:textColor="@android:color/black"
                         android:textSize="20sp" />
 
                     <ImageButton
@@ -411,7 +425,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
-                        android:textColor="@android:color/white"
+                        android:textColor="@android:color/black"
                         android:textSize="20sp" />
 
                     <ImageButton

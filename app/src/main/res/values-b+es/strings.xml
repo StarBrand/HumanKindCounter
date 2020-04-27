@@ -2,15 +2,16 @@
     <string name="placeholder">Algo va aquí</string>
     <string name="app_name">Contador HumanKind</string>
     <string name="shuffle_cards">Mezclar cartas</string>
-    <string name="none">Sin facción</string>
+    <string name="faction">Faction</string>
+    <string name="none">Sin Facción</string>
     <string name="chimera">Quimera</string>
     <string name="abysmal">Abismales</string>
     <string name="corpo">Corporación</string>
     <string name="acracia">Acracia</string>
     <string name="next_virtue">Siguiente Virtud</string>
     <string name="shuffle">Mezcla las cartas!</string>
-    <string name="display_faction_text">Facciones ya obtenidas:</string>
-    <string name="display_numerical_text">Virtudes ya obtenidas:</string>
+    <string name="display_faction_text">Facciones:</string>
+    <string name="display_numerical_text">Virtudes:</string>
     <string name="error">Un error inesperado ocurrió</string>
     <string name="shuffled">Cartas mezcladas</string>
     <string name="san">Santuario</string>
@@ -19,14 +20,82 @@
     <string name="no_will">No puedes jugar esa carta, puntos de voluntad insuficientes</string>
     <string name="no_structure">Tu Santuario ha sido destruido</string>
     <string name="display_already_1">Facciones obtenidas</string>
-    <string name="structure_question">Con cuántos puntos te golpearon?</string>
-    <string name="hit_it">DALE</string>
+    <string name="structure_question">¿Con cuántos puntos te golpearon?</string>
+    <string name="will_question">¿Cuánta voluntad gastaste?</string>
+    <string name="add_structure_question">¿Cuántos puntos para añadir?</string>
+    <string name="add_will_question">¿Cuánta voluntad a añadir?</string>
     <string name="passed">Puntos que pasaron</string>
-    <string name="will_question">Cuánta voluntad gastaste?</string>
-    <string name="spend">GASTA</string>
     <string name="will_spent">Volundad que gastaste</string>
+    <string name="add_structure">Estructura a añadir</string>
+    <string name="add_will">Voluntad a añadir</string>
+    <string name="hit_it">DALE</string>
+    <string name="spend">GASTA</string>
+    <string name="add_it">AÑADIR</string>
     <string name="settings">Configuración</string>
     <string name="general_settings">Configuraciones generales</string>
     <string name="language">Idioma</string>
     <string name="no_faction">Sin Facción</string>
+    <string name="information">Información</string>
+    <string name="about">Créditos</string>
+    <string name="visual_options">Opciones visuales</string>
+    <string name="num_ed">Edición de las Virtudes</string>
+    <string name="fac_ed">Edición de las cartas de Facción</string>
+    <string name="dis_trans">Virtudes obtenidas transparentes</string>
+    <string name="select_sanctuary">Seleccionar santuario</string>
+    <string name="set_up_stats">Configurar estadísticas</string>
+    <string name="looking">Buscar en lista…</string>
+    <string name="select_faction">Selectiona tu facción</string>
+    <string name="will_points">Voluntad</string>
+    <string name="will_placeholder">4</string>
+    <string name="structure_placeholder">12</string>
+    <string name="structure_points">Estructura</string>
+    <string name="ok">OK</string>
+    <string name="edition">Edición</string>
+    <string name="id">#</string>
+    <string name="faction_box_1">Faction Box 1</string>
+    <string name="faction_box_2">Faction Box 2</string>
+    <string name="faction_box_3">Faction Box 3</string>
+    <string name="faction_box_4">Faction Box 4</string>
+    <string name="faction_box_5">Faction Box 5</string>
+    <string name="numerical_box_1">Numerical Box 1</string>
+    <string name="numerical_box_2">Numerical Box 2</string>
+    <string name="numerical_box_3">Numerical Box 3</string>
+    <string name="numerical_box_4">Numerical Box 4</string>
+    <string name="numerical_box_5">Numerical Box 5</string>
+    <string name="ev">Evolución</string>
+    <string name="dv">Desviantes</string>
+    <string name="su">Suburbia</string>
+    <string name="ra">Radix</string>
+    <string name="sanctuary_error">Ingresa una edición para buscar tu Santuario</string>
+    <string name="sanctuary_no_picked_up">Selecciona el id o ingresa el nombre de tu Santuario</string>
+    <string name="san_to_show">Número de santuarios favoritos</string>
+    <string name="no_implemented">Siguiente versión</string>
+    <string name="about_info">
+        "Sobre la aplicación:\n\n"
+        "Esta app fue desarrollada sin fines de lucro para contribuir al JCC HumanKind. Todos "
+        "los derechos reservados © 2020 Fenix Entertainment S.P.A.\n"
+        "Programaión por Juan Saez Hidalgo y diseño visual por Sebastian Saez Hidalgo.\n"
+        "Queremos agredecer a la comunidad HumanKind de JO por todo el feedback hecho. También a "
+        "Aloso Reyes por los concejos en programación en Android Studio.\n"
+        "Metallic Texture diseñado por kjpargeter / Freepik\n"
+        "Metal Grid Texture diseñado por Praphan Jampala\n\n"
+        "El código fuente está disponible en https://github.com/StarBrand/HumanKindCounter y "
+        "protegido por la licencia MIT:\n\n"
+        "Copyright © 2020 Juan Saez Hidalgo\n"
+        "Permission is hereby granted, free of charge, to any person obtaining a copy "
+        "of this software and associated documentation files (the \"Software\"), to deal "
+        "in the Software without restriction, including without limitation the rights "
+        "to use, copy, modify, merge, publish, distribute, sublicense, and/or sell "
+        "copies of the Software, and to permit persons to whom the Software is "
+        "furnished to do so, subject to the following conditions:\n\n"
+        "The above copyright notice and this permission notice shall be included in all "
+        "copies or substantial portions of the Software.\n"
+        "THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR "
+        "IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, "
+        "FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE "
+        "AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER "
+        "LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, "
+        "OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE "
+        "SOFTWARE."
+    </string>
 </resources>

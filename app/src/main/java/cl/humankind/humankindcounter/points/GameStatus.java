@@ -6,10 +6,10 @@ public class GameStatus{
     private CounterPoints will;
     private boolean onGame;
 
-    public GameStatus(){
+    public GameStatus(int structure, int will){
         onGame = true;
-        structure = new CounterPoints(12, 1);
-        will = new CounterPoints(4, 0);
+        this.structure = new CounterPoints(structure, 1);
+        this.will = new CounterPoints(will, 0);
     }
 
     public boolean getStatus(){
